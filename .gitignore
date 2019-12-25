@@ -1,0 +1,9 @@
+*.sw*
+*.env
+rsync*
+notes
+temp*/
+build/
+target/
+/target
+**/*.rs.bk
