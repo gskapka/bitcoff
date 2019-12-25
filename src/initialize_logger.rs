@@ -13,7 +13,7 @@ pub fn initialize_logger() -> Result<()> {
         TerminalMode::Mixed,
     ) {
         Ok(_) => {
-            info!("✔ Logger initialized successfully");
+            info!("✔ Logger initialized successfully!");
             Ok(())
         },
         Err(e) => Err(AppError::Custom(e.to_string()))
