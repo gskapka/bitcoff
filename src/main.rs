@@ -1,5 +1,6 @@
 #![feature(try_trait)]
 
+pub mod state;
 pub mod types;
 pub mod utils;
 pub mod errors;
