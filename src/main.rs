@@ -4,6 +4,7 @@ pub mod state;
 pub mod types;
 pub mod utils;
 pub mod errors;
+pub mod constants;
 pub mod test_utils;
 pub mod usage_info;
 pub mod get_cli_args;
