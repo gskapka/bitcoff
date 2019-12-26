@@ -27,6 +27,9 @@ use crate::{
     */
 };
 
+pub const SAMPLE_TESTNET_ENDPOINT: &'static str =
+    "https://blockstream.info/testnet/api/";
+
 pub const SAMPLE_BTC_PRIVATE_KEY: &'static str =
     "cP2Dv4mx1DwJzN8iF6CCyPZmuS27bT9MV4Qmgb9h6cNQNq2Jgpmy";
 
