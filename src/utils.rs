@@ -9,6 +9,38 @@ use crate::{
         Result,
     },
 };
+use bitcoin::{
+    consensus::encode::serialize as btc_serialize,
+    consensus::encode::deserialize as btc_deserialize,
+    blockdata::{
+        opcodes,
+        block::Block as BtcBlock,
+        transaction::{
+            TxIn as BtcUtxo,
+            TxOut as BtcTxOut,
+            Transaction as BtcTransaction,
+        },
+        script::{
+            Script as BtcScript,
+            Builder as BtcScriptBuilder,
+        },
+    },
+};
+
+pub fn get_pay_to_pub_key_hash_script(btc_address: &str) -> Result<BtcScript> {
+    let script = BtcScriptBuilder::new();
+    Ok(
+        script
+            .push_opcode(opcodes::all::OP_DUP)
+            .push_opcode(opcodes::all::OP_HASH160)
+            .push_slice(
+                &convert_btc_address_to_pub_key_hash_bytes(btc_address)?[..]
+            )
+            .push_opcode(opcodes::all::OP_EQUALVERIFY)
+            .push_opcode(opcodes::all::OP_CHECKSIG)
+            .into_script()
+    )
+}
 
 pub fn bytes_to_utf8_str(bytes: &Bytes) -> Result<String> {
     Ok(std::str::from_utf8(bytes)?.to_string())

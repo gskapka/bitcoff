@@ -15,8 +15,9 @@ Usage:  btc-tx-maker --help
 
 Commands:
 
-    makeOpReturnTx        ❍ Create an `OP_RETURN` transaction, where the 
-                            `OP_RETURN` output contains the <data> you supply.
+    makeOpReturnTx        ❍ Create an `OP_RETURN` transaction, pay the `to` 
+                            address via a `p2pkh` transactin and where the 
+                            `OP_RETURN` output contains the <data> supplied.
 
     <to>                  ❍ Address to send the transaction to.
 
