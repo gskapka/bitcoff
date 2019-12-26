@@ -46,6 +46,8 @@ It currently only supports the getting of a single UTXO for a transaction.
 
 The tool assumes you have a GPG encrypted BTC private key in __`WIF`__ format. You can pass in a path to the encrypted file when you run the CLI, else it'll default to __`./encrypted-btc-private-key`__ in the root of this repo.
 
+Current behaviour will take ALL an addresses UTXOS and sweep them together into the transaction.
+
 &nbsp;
 
 ***
