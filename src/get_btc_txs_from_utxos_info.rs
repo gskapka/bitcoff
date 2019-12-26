@@ -5,11 +5,13 @@ use bitcoin::{
 };
 use crate::{
     state::State,
+    errors::AppError,
+    utils::make_api_call,
     types::{
         Result,
+        UtxosInfo,
         BtcTransactions,
     },
-    errors::AppError,
 };
 
 pub fn convert_hex_tx_to_btc_tx(hex: &String) -> Result<BtcTransaction> {
@@ -30,47 +32,29 @@ fn get_hex_tx_from_tx_id(
     api_endpoint: &String,
 ) -> Result<String> {
     info!("✔ Getting BTC tx in hex format for tx id: {}", tx_id);
-    match reqwest::get(
-        &format!("{}tx/{}/hex", api_endpoint, tx_id)[..]
-    ) { 
-        Err(e) => Err(AppError::Custom(e.to_string())),
-        Ok(mut body) => match body.status() {
-            reqwest::StatusCode::OK => {
-                match body.text() {
-                    Ok(text) => Ok(text),
-                    Err(e) => Err(AppError::Custom(e.to_string()))
-                }
-            }
-            _ => {
-                debug!( "✘ Error getting BTC tx in hex: {:?}", body);
-                Err(AppError::Custom(
-                    format!(
-                        "✘ Error getting BTC tx in hex, status code: {}", 
-                        body.status()
-                    )
-                ))
-            }
-        }
-    }
+    make_api_call(
+        &format!("{}tx/{}/hex", api_endpoint, tx_id)[..],
+        &"✘ Error getting BTC tx in hex: {:?}",
+    )
 }
 
-fn get_hex_txs_from_tx_ids(
-    tx_ids: &Vec<String>,
+fn get_hex_txs_from_utxos_info(
+    utxos_info: &UtxosInfo,
     api_endpoint: &String,
 ) -> Result<Vec<String>> {
     info!("✔ Getting BTC txs in hex format...");
-    tx_ids
+    utxos_info
         .iter()
-        .map(|tx_id| get_hex_tx_from_tx_id(tx_id, api_endpoint))
+        .map(|utxo_info| get_hex_tx_from_tx_id(&utxo_info.txid, api_endpoint))
         .collect::<Result<Vec<String>>>()
 }
 
-pub fn maybe_get_txs_from_tx_ids_and_put_in_state(
+pub fn get_txs_from_utxo_infos_and_put_in_state(
     state: State
 ) -> Result<State> {
     info!("✔ Maybe getting BTC txs...");
-    get_hex_txs_from_tx_ids(
-        &state.cli_args.arg_tx_id, 
+    get_hex_txs_from_utxos_info(
+        state.get_utxos_info()?,
         &state.api_endpoint,
     )
         .and_then(convert_hex_txs_to_btc_txs)

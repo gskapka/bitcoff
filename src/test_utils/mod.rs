@@ -12,7 +12,7 @@ use crate::{
     types::Result,
     errors::AppError,
     btc_private_key::BtcPrivateKey,
-    get_btc_txs_from_tx_ids::convert_hex_tx_to_btc_tx,
+    get_btc_txs_from_utxos_info::convert_hex_tx_to_btc_tx,
     /*
     extract_utxos_from_btc_txs::create_btc_utxo_and_value_from_tx_output,
     btc_utils::get_pay_to_pub_key_hash_script,

@@ -72,3 +72,5 @@ __`❍ cargo +nightly test`__
  [ ] CLI arg for where to send the change to (default to address of private key used)
  [ ] Make 1st tx type an OP_RETURN w/ arbitrary data.
  [ ] Make endpoint configurable?
+ [ ] Have online version pull UTXO list from API, then pull each tx and get the utxos that way.
+ [ ] When implementing the above, option to use ALL utxos maybe to sweep them up into a single one for future use?

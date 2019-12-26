@@ -14,8 +14,8 @@ pub mod get_utxos_info;
 pub mod btc_private_key;
 pub mod initialize_logger;
 pub mod get_btc_private_key;
-pub mod get_btc_txs_from_tx_ids;
 pub mod make_op_return_transaction;
+pub mod get_btc_txs_from_utxos_info;
 
 #[macro_use] extern crate log;
 #[macro_use] extern crate serde_derive;
