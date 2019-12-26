@@ -17,9 +17,9 @@ pub struct CliArgs {
     pub flag_change: String, // FIXME How to check is valid address?
     pub flag_network: String,
     pub flag_keyfile: String,
-    pub arg_utxo_index: usize,
+    pub arg_tx_id: Vec<String>,
     pub cmd_makeOpReturnTx: bool,
-    pub arg_btc_block_hash: String,
+    pub arg_utxo_index: Vec<usize>,
 }
 
 /* convert string to usize. Unless it's the default 'max'
