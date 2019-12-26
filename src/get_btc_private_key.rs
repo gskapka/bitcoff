@@ -54,7 +54,9 @@ fn maybe_get_btc_private_key_wif_string(
 
 fn get_btc_private_key_from_wif(btc_pk_wif: String) -> Result<BtcPrivateKey> {
     info!("✔ Creating BTC private key from WIF...");
-    BtcPrivateKey::from_wif(&btc_pk_wif)
+    let btc_pk = BtcPrivateKey::from_wif(&btc_pk_wif)?;
+    info!("✔ BTC address: '{}'", btc_pk.to_p2pkh_btc_address());
+    Ok(btc_pk)
 }
 
 pub fn maybe_get_btc_private_key_and_add_to_state(
