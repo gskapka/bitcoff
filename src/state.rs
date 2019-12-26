@@ -1,6 +1,9 @@
 use bitcoin::network::constants::Network as BtcNetwork;
 use crate::{
-    types::Result,
+    types::{
+        Result,
+        BtcTransactions,
+    },
     errors::AppError,
     get_cli_args::{
         CliArgs,
@@ -14,6 +17,7 @@ pub struct State {
     pub cli_args: CliArgs,
     pub network: BtcNetwork,
     pub api_endpoint: String,
+    pub btc_txs: Option<BtcTransactions>,
     pub btc_private_key: Option<BtcPrivateKey>,
 }
 
@@ -32,6 +36,7 @@ impl State {
                 api_endpoint:  
                     get_api_endpoint_from_cli_args(&cli_args.flag_network),
                 cli_args,
+                btc_txs: None,
                 btc_private_key: None,
             }
         )
@@ -51,5 +56,19 @@ impl State {
             }
         }
     }
-}
 
+    pub fn add_btc_txs( 
+        mut self,
+        btc_txs: BtcTransactions,
+    ) -> Result<State> {
+        match self.btc_txs {
+            Some(_) => Err(AppError::Custom(
+                get_no_overwrite_state_err("btc_txs"))
+            ),
+            None => {
+                self.btc_txs = Some(btc_txs);
+                Ok(self)
+            }
+        }
+    }
+}
