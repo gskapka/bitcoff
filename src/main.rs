@@ -5,6 +5,7 @@ pub mod types;
 pub mod utils;
 pub mod base58;
 pub mod errors;
+pub mod get_utxos;
 pub mod constants;
 pub mod test_utils;
 pub mod usage_info;

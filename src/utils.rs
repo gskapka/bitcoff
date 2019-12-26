@@ -7,6 +7,10 @@ use crate::{
     types::{
         Bytes,
         Result,
+        BtcUtxosAndValues,
+    },
+    base58::{
+        from as from_base58,
     },
 };
 use bitcoin::{
@@ -26,6 +30,29 @@ use bitcoin::{
         },
     },
 };
+
+pub fn convert_btc_address_to_pub_key_hash_bytes(
+    btc_address: &str
+) -> Result<Bytes> {
+    Ok(from_base58(btc_address)?[1..21].to_vec())
+}
+
+pub fn serialize_btc_utxo(btc_utxo: &BtcUtxo) -> Bytes {
+    btc_serialize(btc_utxo)
+}
+
+pub fn deserialize_btc_utxo(bytes: &Bytes) -> Result<BtcUtxo> {
+    Ok(btc_deserialize(bytes)?)
+}
+
+pub fn get_total_value_of_utxos_and_values(
+    utxos_and_values: &BtcUtxosAndValues
+) -> u64 {
+   utxos_and_values
+        .iter()
+        .map(|utxo_and_value| utxo_and_value.value)
+        .sum()
+}
 
 pub fn get_pay_to_pub_key_hash_script(btc_address: &str) -> Result<BtcScript> {
     let script = BtcScriptBuilder::new();
