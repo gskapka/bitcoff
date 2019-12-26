@@ -12,7 +12,7 @@ use crate::{
     errors::AppError,
 };
 
-fn convert_hex_tx_to_btc_tx(hex: &String) -> Result<BtcTransaction> {
+pub fn convert_hex_tx_to_btc_tx(hex: &String) -> Result<BtcTransaction> {
     info!("✔ Converting hex to BTC tx...");
     Ok(btc_deserialize::<BtcTransaction>(&hex::decode(hex)?)?)
 }
@@ -81,19 +81,15 @@ pub fn maybe_get_txs_from_tx_ids_and_put_in_state(
 mod tests {
     use super::*;
     use crate::test_utils::{
-        SAMPLE_TESTNET_ENDPOINT
+        get_sample_tx_hex,
+        SAMPLE_TESTNET_TX_ID,
+        SAMPLE_TESTNET_ENDPOINT,
     };
-
-    fn get_sample_tx_hex() -> &'static str {
-        "0200000001c351e079d6295d583d18c8b402310c917964d0c2cb71f57cb98590d92531ef66000000006a47304402207e34334ea611af33ad8a74126fe09b6cf870aefc99d64481c8e68ad2074aac9e02201de15364d45bf34597fa5d39583118764c8102519f655269c2e96db97fe3f4b9012103c9168357c5b9758c06d27428fe82f9b646c8843e19f93cc15aafd07fc2be0142ffffffff0242a5df01000000001976a9147bbd5aea02f4c08ab614523f2f256d4cd2b308cf88acc8000000000000001976a914c1e124adb43f6676739d40d93998ab8476ee46c188ac00000000"
-    }
 
     #[test]
     fn should_get_tx_in_hex_format() {
-        let tx_id = 
-            "43e2ffe75efb144938dff8460b3ac7e12eb86f05f38f267c699aa46f32953ba8";
         match get_hex_tx_from_tx_id(
-            &tx_id.to_string(),
+            &SAMPLE_TESTNET_TX_ID.to_string(),
             &SAMPLE_TESTNET_ENDPOINT.to_string(),
         ) {
             Err(e) => panic!("Error getting tx id: {}", e),
