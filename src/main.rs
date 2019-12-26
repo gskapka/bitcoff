@@ -11,6 +11,7 @@ pub mod get_cli_args;
 pub mod btc_private_key;
 pub mod initialize_logger;
 pub mod get_btc_private_key;
+pub mod get_btc_txs_from_tx_ids;
 pub mod make_op_return_transaction;
 
 #[macro_use] extern crate log;
