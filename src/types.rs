@@ -25,8 +25,8 @@ pub type BtcUtxosAndValues = Vec<BtcUtxoAndValue>;
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct UtxoInfo {
+    pub vout: u32,
     pub value: u64,
-    pub vout: usize,
     pub txid: String,
 }
 

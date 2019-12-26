@@ -14,6 +14,7 @@ use crate::{
     constants::DEFAULT_BTC_SEQUENCE,
     types::{
         Result,
+        UtxosInfo,
         BtcUtxoAndValue,
         BtcUtxosAndValues,
     },
@@ -56,7 +57,7 @@ fn create_unsigned_utxo_from_tx_output(
 
 fn create_unsigned_utxos_from_tx_outputs(
     tx: &Vec<BtcTransaction>,
-    output_index: &Vec<u32>,
+    utxos_info: &UtxosInfo,
 ) -> Result<BtcUtxosAndValues> {
     Ok(
         tx
@@ -65,20 +66,23 @@ fn create_unsigned_utxos_from_tx_outputs(
             .map(|(i, tx)| 
                 create_btc_utxo_and_value_from_tx_output(
                      tx, 
-                     output_index[i],
+                     utxos_info[i].vout,
                  )
              )
             .collect::<BtcUtxosAndValues>()
     )
 }
 
-pub fn maybe_extract_utxos_and_add_to_state(state: State) -> Result<State> {
+pub fn extract_utxos_and_add_to_state(state: State) -> Result<State> {
     info!("✔ Maybe extracting UTXOs and adding to state...");
     create_unsigned_utxos_from_tx_outputs(
         state.get_btc_txs()?,
-        &state.cli_args.arg_utxo_indices,
+        state.get_utxos_info()?,
     )
-        .and_then(|utxos| state.add_btc_utxos_and_values(utxos))
+        .and_then(|utxos| {
+            debug!("✔ The extracted UTXOs: {:?}", utxos);
+            state.add_btc_utxos_and_values(utxos)
+        })
 }
 
 #[cfg(test)]
