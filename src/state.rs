@@ -5,6 +5,7 @@ use crate::{
     get_cli_args::{
         CliArgs,
         get_network_from_cli_arg,
+        get_api_endpoint_from_cli_args,
     },
     btc_private_key::BtcPrivateKey,
 };
@@ -12,6 +13,7 @@ use crate::{
 pub struct State {
     pub cli_args: CliArgs,
     pub network: BtcNetwork,
+    pub api_endpoint: String,
     pub btc_private_key: Option<BtcPrivateKey>,
 }
 
@@ -25,7 +27,10 @@ impl State {
     ) -> Result<State> {
         Ok(
             State {
-                network: get_network_from_cli_arg(&cli_args.flag_network),
+                network: 
+                    get_network_from_cli_arg(&cli_args.flag_network),
+                api_endpoint:  
+                    get_api_endpoint_from_cli_args(&cli_args.flag_network),
                 cli_args,
                 btc_private_key: None,
             }

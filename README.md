@@ -71,3 +71,4 @@ __`❍ cargo +nightly test`__
  [ ] Fee as CLI arg.
  [ ] CLI arg for where to send the change to (default to address of private key used)
  [ ] Make 1st tx type an OP_RETURN w/ arbitrary data.
+ [ ] Make endpoint configurable?

@@ -4,6 +4,7 @@ use crate::{
     types::Result,
     errors::AppError,
     usage_info::USAGE_INFO,
+    constants::BLOCK_EXPLORER_URL,
 };
 
 #[allow(non_snake_case)]
@@ -40,6 +41,15 @@ pub fn get_network_from_cli_arg(network_cli_arg: &String) -> BtcNetwork {
     }
 }
 
+pub fn get_api_endpoint_from_cli_args(network_cli_arg: &String) -> String {
+    info!("✔ Getting API endpoint...");
+    let api_url = match &network_cli_arg[..] {
+        "Testnet" => format!("{}testnet/api/", BLOCK_EXPLORER_URL),
+        _ => format!("{}/api/", BLOCK_EXPLORER_URL),
+    };
+    info!("✔ Using API endpoint: `{}`", api_url);
+    api_url
+}
 
 pub fn get_cli_args() -> Result<CliArgs> {
     info!("✔ Getting CLI args...");
