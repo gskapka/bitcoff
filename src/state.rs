@@ -2,6 +2,7 @@ use bitcoin::network::constants::Network as BtcNetwork;
 use crate::{
     types::{
         Result,
+        UtxosInfo,
         BtcTransactions,
         BtcUtxosAndValues,
     },
@@ -18,6 +19,7 @@ pub struct State {
     pub cli_args: CliArgs,
     pub network: BtcNetwork,
     pub api_endpoint: String,
+    pub utxos_info: Option<UtxosInfo>,
     pub btc_txs: Option<BtcTransactions>,
     pub btc_private_key: Option<BtcPrivateKey>,
     pub btc_utxos_and_values: Option<BtcUtxosAndValues>, 
@@ -43,6 +45,7 @@ impl State {
                     get_api_endpoint_from_cli_args(&cli_args.flag_network),
                 cli_args,
                 btc_txs: None,
+                utxos_info: None,
                 btc_private_key: None,
                 btc_utxos_and_values: None,
             }
@@ -59,6 +62,18 @@ impl State {
             ),
             None => {
                 self.btc_private_key = Some(btc_private_key);
+                Ok(self)
+            }
+        }
+    }
+
+    pub fn add_utxos_info(mut self, utxos_info: UtxosInfo) -> Result<State> {
+        match self.utxos_info {
+            Some(_) => Err(AppError::Custom(
+                get_no_overwrite_state_err("utxos_info"))
+            ),
+            None => {
+                self.utxos_info = Some(utxos_info);
                 Ok(self)
             }
         }
@@ -114,5 +129,28 @@ impl State {
                 get_not_in_state_err("btc_txs"))
             )
         }
+    }
+
+    pub fn get_utxos_info(&self) -> Result<&UtxosInfo> {
+        match &self.utxos_info {
+            Some(utxos_info) => Ok(&utxos_info),
+            None => Err(AppError::Custom(
+                get_not_in_state_err("utxos_info"))
+            )
+        }
+    }
+
+    pub fn get_btc_private_key(&self) -> Result<&BtcPrivateKey> {
+        match &self.btc_private_key {
+            Some(btc_private_key) => Ok(&btc_private_key),
+            None => Err(AppError::Custom(
+                get_not_in_state_err("btc_private_key"))
+            )
+        }
+    }
+
+    pub fn get_btc_address(&self) -> Result<String> {
+        self.get_btc_private_key()
+            .map(|pk| pk.to_p2pkh_btc_address())
     }
 }

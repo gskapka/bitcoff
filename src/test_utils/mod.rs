@@ -36,7 +36,7 @@ pub const SAMPLE_TESTNET_ENDPOINT: &'static str =
 pub const SAMPLE_BTC_PRIVATE_KEY: &'static str =
     "cP2Dv4mx1DwJzN8iF6CCyPZmuS27bT9MV4Qmgb9h6cNQNq2Jgpmy";
 
-pub const SAMPLE_TARGET_BTC_ADDRESS: &'static str =
+pub const SAMPLE_TARGET_BTC_ADDRESS: &'static str = // TODO RENAME!
     "moBSQbHn7N9BC9pdtAMnA7GBiALzNMQJyE";
 
 pub const SAMPLE_BTC_PUBLIC_KEY: &'static str =

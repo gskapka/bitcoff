@@ -18,9 +18,17 @@ use bitcoin::{
 };
 
 pub type Bytes = Vec<u8>;
+pub type UtxosInfo = Vec<UtxoInfo>;
 pub type BtcTransactions = Vec<BtcTransaction>;
 pub type Result<T> = result::Result<T, AppError>;
 pub type BtcUtxosAndValues = Vec<BtcUtxoAndValue>;
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+pub struct UtxoInfo {
+    pub value: u64,
+    pub vout: usize,
+    pub txid: String,
+}
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct BtcUtxoAndValue {

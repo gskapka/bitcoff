@@ -10,6 +10,7 @@ pub mod constants;
 pub mod test_utils;
 pub mod usage_info;
 pub mod get_cli_args;
+pub mod get_utxos_info;
 pub mod btc_private_key;
 pub mod initialize_logger;
 pub mod get_btc_private_key;
