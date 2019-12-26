@@ -65,7 +65,7 @@ __`❍ cargo +nightly test`__
 &nbsp;
 
 ### :black_nib: To Do:
- [ ] Make an offline version where use supplies UTXO deets!
+ [ ] Make an offline version where use supplies UTXO details in hex format!
  [ ] Make flag for traces since we might only want final output to stdout for programmatic usage.
  [ ] Value as a CLI arg, else we use the whole UTXO amount minus the fee.
  [ ] Fee as CLI arg.
