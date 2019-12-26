@@ -1,5 +1,4 @@
 use std::process::Command;
-use bitcoin::network::constants::Network as BtcNetwork;
 use crate::{
     state::State,
     types::Result,
