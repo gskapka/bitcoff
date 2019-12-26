@@ -8,7 +8,7 @@ use crate::{
 
 pub fn initialize_logger() -> Result<()> {
     match TermLogger::init(
-        LevelFilter::Trace,
+        LevelFilter::Debug,
         Config::default(),
         TerminalMode::Mixed,
     ) {
