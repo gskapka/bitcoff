@@ -1,9 +1,11 @@
+use reqwest;
 use secp256k1::SecretKey;
 use rand::{
     RngCore,
     thread_rng,
 };
 use crate::{
+    errors::AppError,
     types::{
         Bytes,
         Result,
@@ -30,6 +32,30 @@ use bitcoin::{
         },
     },
 };
+
+pub fn make_api_call(url: &str, error_message: &str) -> Result<String> {
+    match reqwest::get(url) { 
+        Err(e) => Err(AppError::Custom(e.to_string())),
+        Ok(mut body) => match body.status() {
+            reqwest::StatusCode::OK => {
+                match body.text() {
+                    Ok(text) => Ok(text),
+                    Err(e) => Err(AppError::Custom(e.to_string()))
+                }
+            }
+            _ => {
+                debug!("{}: {:?}", error_message, body);
+                Err(AppError::Custom(
+                    format!(
+                        "{} - status code: {}", 
+                        error_message,
+                        body.status(),
+                    )
+                ))
+            }
+        }
+    }
+}
 
 pub fn convert_btc_address_to_pub_key_hash_bytes(
     btc_address: &str
