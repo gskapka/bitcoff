@@ -19,7 +19,7 @@ pub struct CliArgs {
     pub flag_keyfile: String,
     pub arg_tx_id: Vec<String>,
     pub cmd_makeOpReturnTx: bool,
-    pub arg_utxo_index: Vec<usize>,
+    pub arg_utxo_indices: Vec<u32>,
 }
 
 /* convert string to usize. Unless it's the default 'max'

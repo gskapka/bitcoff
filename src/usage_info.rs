@@ -11,7 +11,7 @@ A maker of BTC transactions!
 ❍ Usage ❍
 
 Usage:  btc-tx-maker --help
-        btc-tx-maker makeOpReturnTx <to> <data> (<tx-id> <utxo-index>)... [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--value=<uint>] 
+        btc-tx-maker makeOpReturnTx <to> <data> (<tx-id> <utxo-indices>)... [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--value=<uint>] 
 
 Commands:
 
@@ -26,7 +26,7 @@ Commands:
     <tx-id>               ❍ The transaction hash(es) of the transaction(s) that
                             contain the UTXO output(s) you wish to spend.
 
-    <utxo-index>          ❍ The index/indices of the UTXO(s) in the above
+    <utxo-indices>        ❍ The index/indices of the UTXO(s) in the above
                             transactions.
 
 Options:
