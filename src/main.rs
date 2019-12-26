@@ -3,6 +3,7 @@
 pub mod state;
 pub mod types;
 pub mod utils;
+pub mod base58;
 pub mod errors;
 pub mod constants;
 pub mod test_utils;
