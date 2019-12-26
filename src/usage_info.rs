@@ -11,24 +11,42 @@ A maker of BTC transactions!
 ❍ Usage ❍
 
 Usage:  btc-tx-maker --help
-        btc-tx-maker makeTx <btc-block-hash> <utxo-index> [--keyfile=<path>] [--network=<string>]
+        btc-tx-maker makeOpReturnTx <to> <data> <btc-block-hash> <utxo-index> [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--value=<uint>] 
 
 Commands:
 
-    makeTx              ❍ Do the thing!
+    makeOpReturnTx        ❍ Create an `OP_RETURN` transaction, where the 
+                            `OP_RETURN` output contains the <data> you supply.
 
-    <btc-block-hash>    ❍ The hash of the block containing the UTXO to spend.
+    <to>                  ❍ Address to send the transaction to.
 
-    <utxo-index>        ❍ The index of the UTXO in the block.
+    <data>                ❍ The hex data for the `OP_RETURN` output.
+
+    <btc-block-hash>      ❍ The hash of the block containing the UTXO to spend.
+
+    <utxo-index>          ❍ The index of the UTXO in the block.
 
 Options:
 
     --help               ❍ Show this message.
 
+    --fee=<uint>         ❍ Fee to pay in Satoshis-per-byte.
+                           [default: 23]
+
     --network=<string>   ❍ Btc network: Either `Bitcoin` or `Testnet`.
                            [default: Bitcoin]
 
-    --keyfile=<path>     ❍ Path to GPG-encrypted BTC private key hex string.
+    --keyfile=<path>     ❍ Path to GPG-encrypted BTC private key in wallet 
+                           import format (`WIF`).
                            [default: ./encrypted-btc-private-key.gpg]
+
+    --change=<string>    ❍ Address to send any change to. Defaults to address 
+                           of the private key used for the transaction.
+                           [default: signer]
+
+    --value=<string>     ❍ Amount of BTC to send in Satoshis. Must be < total 
+                           UTXO values plus fee. If omitted, the tool defaults 
+                           to: `total UTXO value - fee`
+                           [default: max]
 
 ";

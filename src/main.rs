@@ -8,9 +8,9 @@ pub mod test_utils;
 pub mod usage_info;
 pub mod get_cli_args;
 pub mod btc_private_key;
-pub mod make_transaction;
 pub mod initialize_logger;
 pub mod get_btc_private_key;
+pub mod make_op_return_transaction;
 
 #[macro_use] extern crate log;
 #[macro_use] extern crate serde_derive;
@@ -19,8 +19,8 @@ use crate::{
     types::Result,
     errors::AppError,
     usage_info::USAGE_INFO,
-    make_transaction::make_transaction,
     initialize_logger::initialize_logger,
+    make_op_return_transaction::make_op_return_transaction,
     get_cli_args::{
         CliArgs,
         get_cli_args,
@@ -32,7 +32,8 @@ fn main() -> Result<()> {
         .and_then(|_| get_cli_args())
         .and_then(|cli_args|
             match cli_args {
-                CliArgs {cmd_makeTx: true, ..} => make_transaction(cli_args),
+                CliArgs {cmd_makeOpReturnTx: true, ..} => 
+                    make_op_return_transaction(cli_args),
                 _ => Err(AppError::Custom(USAGE_INFO.to_string()))
             }
         ) {
