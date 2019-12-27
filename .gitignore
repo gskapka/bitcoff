@@ -7,3 +7,5 @@ build/
 target/
 /target
 **/*.rs.bk
+**/get-utxos-output
+**/make-online-op-return-output
