@@ -37,7 +37,10 @@ pub fn get_utxos_info_and_add_to_state(state: State) -> Result<State> {
         &state.api_endpoint,
     )
         .and_then(parse_utxo_list_json_string)
-        .and_then(|utxos_info| state.add_utxos_info(utxos_info))
+        .and_then(|utxos_info| {
+            info!("✔ {} UTXO(s) in list", utxos_info.len());
+            state.add_utxos_info(utxos_info)
+        })
 }
 
 #[cfg(test)]

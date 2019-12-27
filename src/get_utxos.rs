@@ -11,7 +11,10 @@ use bitcoin::{
 };
 use crate::{
     state::State,
-    constants::DEFAULT_BTC_SEQUENCE,
+    constants::{
+        ONE_BTC,
+        DEFAULT_BTC_SEQUENCE,
+    },
     types::{
         Result,
         UtxosInfo,
@@ -21,6 +24,7 @@ use crate::{
     utils::{
         serialize_btc_utxo,
         deserialize_btc_utxo,
+        get_total_value_of_utxos_and_values,
     },
 };
 
@@ -80,7 +84,11 @@ pub fn extract_utxos_and_add_to_state(state: State) -> Result<State> {
         state.get_utxos_info()?,
     )
         .and_then(|utxos| {
-            debug!("✔ The extracted UTXOs: {:?}", utxos);
+            info!(
+                "✔ Total value of the {} UTXO(s): {} BTC", 
+                utxos.len(),
+                get_total_value_of_utxos_and_values(&utxos) as f64 / ONE_BTC,
+            );
             state.add_btc_utxos_and_values(utxos)
         })
 }
