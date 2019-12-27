@@ -11,8 +11,8 @@ A maker of BTC transactions!
 ❍ Usage ❍
 
 Usage:  btcoff --help
-        btcoff getUtxos [--keyfile=<path>] [--network=<string>]
-        btcoff makeOnlineOpReturnTx (<to> <amount>)... <data> [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>]
+        btcoff getUtxos [--keyfile=<path>] [--network=<string>] [--outputPath=<path>]
+        btcoff makeOnlineOpReturnTx (<to> <amount>)... <data> [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>]
 
 Commands:
 
@@ -49,6 +49,8 @@ Options:
 
     --network=<string>   ❍ Btc network: Either `Bitcoin` or `Testnet`.
                            [default: Bitcoin]
+
+    --outputPath=<path>  ❍ Save output to given path.
 
     --keyfile=<path>     ❍ Path to GPG-encrypted BTC private key in wallet 
                            import format (`WIF`).

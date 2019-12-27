@@ -9,6 +9,7 @@ pub mod get_utxos;
 pub mod constants;
 pub mod test_utils;
 pub mod usage_info;
+pub mod save_output;
 pub mod get_cli_args;
 pub mod get_utxo_json;
 pub mod get_utxos_info;

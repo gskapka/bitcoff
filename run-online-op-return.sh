@@ -5,4 +5,5 @@ mudzxCq9aCQ4Una9MmayvJVCF1Tj9fypiM \
 c0ffee \
 --network=Testnet \
 --change=moBSQbHn7N9BC9pdtAMnA7GBiALzNMQJyE \
---fee=24
+--fee=24 \
+--outputPath="./make-online-op-return-output"

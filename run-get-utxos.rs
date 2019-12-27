@@ -1,3 +1,4 @@
 #!/bin/bash
 ./target/release/btc-tx-maker getUtxos \
---network=Testnet
+--network=Testnet \
+--outputPath="./get-utxos-output"

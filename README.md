@@ -1,6 +1,6 @@
 # :fire: An Offline (|| Online!) BTC Transaction Maker
 
-A simple Rust CLI for making BTC transactions given a __`UTXO`__ to spend. Can be run in on- or offline modes depending on your requirements. Offline mode makes zero API calls and thus can be run on an air-gapped machine with no issues.
+A simple Rust CLI for making BTC transactions given a __`UTXO`__ to spend. Can be run in on- or offline modes depending on your requirements. Offline mode makes zero API calls and thus can happily be run on an air-gapped machine.
 
 &nbsp;
 
@@ -34,8 +34,7 @@ __`❍ cargo build --release`__
 
 The tool relies on a GPG shell command in order to retrieve your BTC private key, and thus this only works wherever the __`gpg -d`__ command would.
 
-It currently only supports the getting of a single UTXO for a transaction.
-
+The tool currently gathers ALL of a keys UTXOs for the transaction, regardless of value. Some more finessing on this point will be available soon :P
 &nbsp;
 
 ***

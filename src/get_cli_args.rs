@@ -24,6 +24,7 @@ pub struct CliArgs {
     pub arg_tx_id: Vec<String>,
     pub arg_utxo_indices: Vec<u32>,
     pub cmd_makeOnlineOpReturnTx: bool,
+    pub flag_outputPath: Option<String>,
 }
 
 pub fn get_addresses_and_amounts_from_cli_args(
