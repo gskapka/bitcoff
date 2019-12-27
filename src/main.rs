@@ -14,9 +14,10 @@ pub mod get_utxos_info;
 pub mod btc_transaction;
 pub mod btc_private_key;
 pub mod initialize_logger;
+pub mod create_op_return_tx;
 pub mod get_btc_private_key;
-pub mod make_op_return_transaction;
 pub mod get_btc_txs_from_utxos_info;
+pub mod make_online_op_return_transaction;
 
 #[macro_use] extern crate log;
 #[macro_use] extern crate serde_derive;
@@ -26,7 +27,7 @@ use crate::{
     errors::AppError,
     usage_info::USAGE_INFO,
     initialize_logger::initialize_logger,
-    make_op_return_transaction::make_op_return_transaction,
+    make_online_op_return_transaction::make_online_op_return_transaction,
     get_cli_args::{
         CliArgs,
         get_cli_args,
@@ -38,8 +39,8 @@ fn main() -> Result<()> {
         .and_then(|_| get_cli_args())
         .and_then(|cli_args|
             match cli_args {
-                CliArgs {cmd_makeOpReturnTx: true, ..} => 
-                    make_op_return_transaction(cli_args),
+                CliArgs {cmd_makeOnlineOpReturnTx: true, ..} => 
+                    make_online_op_return_transaction(cli_args),
                 _ => Err(AppError::Custom(USAGE_INFO.to_string()))
             }
         ) {

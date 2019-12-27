@@ -57,6 +57,41 @@ pub fn make_api_call(url: &str, error_message: &str) -> Result<String> {
     }
 }
 
+pub fn create_new_tx_output(value: u64, script: BtcScript) -> BtcTxOut {
+    BtcTxOut { value, script_pubkey: script }
+}
+
+pub fn create_new_pay_to_pub_key_hash_output(
+    value: &u64,
+    recipient: &str,
+) -> Result<BtcTxOut> {
+    Ok(create_new_tx_output(*value, get_pay_to_pub_key_hash_script(recipient)?))
+}
+
+pub fn get_script_sig<'a>(
+    signature_slice: &'a[u8],
+    utxo_spender_pub_key_slice: &'a[u8]
+) -> BtcScript {
+    let script_builder = BtcScriptBuilder::new();
+    script_builder
+        .push_slice(&signature_slice)
+        .push_slice(&utxo_spender_pub_key_slice)
+        .into_script()
+}
+
+// NOTE: Assumes compressed keys and no multi-sigs!
+pub fn calculate_btc_tx_size(num_inputs: usize, num_outputs: usize) -> u64 {
+    ((num_inputs * 148) + (num_outputs * 34) + 10 + num_inputs) as u64
+}
+
+pub fn calculate_btc_tx_fee(
+    num_inputs: usize,
+    num_outputs: usize,
+    sats_per_byte: usize
+) -> u64 {
+    calculate_btc_tx_size(num_inputs, num_outputs) * sats_per_byte as u64
+}
+
 pub fn convert_btc_address_to_pub_key_hash_bytes(
     btc_address: &str
 ) -> Result<Bytes> {
@@ -78,6 +113,25 @@ pub fn get_total_value_of_utxos_and_values(
         .iter()
         .map(|utxo_and_value| utxo_and_value.value)
         .sum()
+}
+
+pub fn get_op_return_output(op_return_bytes: &Bytes) -> Result<BtcTxOut> {
+    Ok(
+        BtcTxOut { 
+            value: 0, 
+            script_pubkey: get_op_return_script(op_return_bytes)? 
+        }
+    )
+}
+
+fn get_op_return_script(op_return_bytes: &Bytes) -> Result<BtcScript> {
+    let script = BtcScriptBuilder::new();
+    Ok(
+        script
+            .push_opcode(opcodes::all::OP_RETURN)
+            .push_slice(op_return_bytes)
+            .into_script()
+    )
 }
 
 pub fn get_pay_to_pub_key_hash_script(btc_address: &str) -> Result<BtcScript> {

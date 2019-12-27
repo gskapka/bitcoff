@@ -1,31 +1,41 @@
 use docopt::Docopt;
 use bitcoin::network::constants::Network as BtcNetwork;
 use crate::{
-    types::Result,
     errors::AppError,
     usage_info::USAGE_INFO,
     constants::BLOCK_EXPLORER_URL,
+    types::{
+        Result,
+        BtcAddressesAndAmounts,
+    },
 };
 
 #[allow(non_snake_case)]
 #[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct CliArgs {
-    pub arg_to: String, // FIXME How to check is valid address?
     pub flag_fee: usize,
     pub arg_data: String,
-    pub flag_value: String,
+    pub cmd_getUtxos: bool,
+    pub arg_to: Vec<String>, // FIXME How to check is valid address?
     pub flag_change: String, // FIXME How to check is valid address?
     pub flag_network: String,
+    pub arg_amount: Vec<u64>, 
     pub flag_keyfile: String,
     pub arg_tx_id: Vec<String>,
-    pub cmd_makeOpReturnTx: bool,
     pub arg_utxo_indices: Vec<u32>,
+    pub cmd_makeOnlineOpReturnTx: bool,
 }
 
-/* convert string to usize. Unless it's the default 'max'
-pub fn get_amount_from_cli_arg() {
+pub fn get_addresses_and_amounts_from_cli_args(
+    addresses: &Vec<String>,
+    amounts: &Vec<u64>,
+) -> BtcAddressesAndAmounts {
+    addresses
+        .iter()
+        .enumerate()
+        .map(|(i, address)| (address.clone(), amounts[i]))
+        .collect::<BtcAddressesAndAmounts>()
 }
-*/
 
 pub fn get_network_from_cli_arg(network_cli_arg: &String) -> BtcNetwork {
     info!("✔ Getting network from cli-arg: '{}'", network_cli_arg);

@@ -1,16 +1,21 @@
-use bitcoin::network::constants::Network as BtcNetwork;
+use bitcoin::{
+    network::constants::Network as BtcNetwork,
+    blockdata::transaction::Transaction as BtcTransaction,
+};
 use crate::{
     types::{
         Result,
         UtxosInfo,
         BtcTransactions,
         BtcUtxosAndValues,
+        BtcAddressesAndAmounts,
     },
     errors::AppError,
     get_cli_args::{
         CliArgs,
         get_network_from_cli_arg,
         get_api_endpoint_from_cli_args,
+        get_addresses_and_amounts_from_cli_args,
     },
     btc_private_key::BtcPrivateKey,
 };
@@ -20,8 +25,10 @@ pub struct State {
     pub network: BtcNetwork,
     pub api_endpoint: String,
     pub utxos_info: Option<UtxosInfo>,
+    pub btc_tx: Option<BtcTransaction>,
     pub btc_txs: Option<BtcTransactions>,
     pub btc_private_key: Option<BtcPrivateKey>,
+    pub addresses_and_amounts: BtcAddressesAndAmounts,
     pub btc_utxos_and_values: Option<BtcUtxosAndValues>, 
 }
 
@@ -43,7 +50,13 @@ impl State {
                     get_network_from_cli_arg(&cli_args.flag_network),
                 api_endpoint:  
                     get_api_endpoint_from_cli_args(&cli_args.flag_network),
+                addresses_and_amounts:
+                    get_addresses_and_amounts_from_cli_args(
+                        &cli_args.arg_to,
+                        &cli_args.arg_amount,
+                    ),
                 cli_args,
+                btc_tx: None,
                 btc_txs: None,
                 utxos_info: None,
                 btc_private_key: None,
@@ -62,6 +75,18 @@ impl State {
             ),
             None => {
                 self.btc_private_key = Some(btc_private_key);
+                Ok(self)
+            }
+        }
+    }
+
+    pub fn add_btc_tx(mut self, btc_tx: BtcTransaction) -> Result<State> {
+        match self.btc_tx {
+            Some(_) => Err(AppError::Custom(
+                get_no_overwrite_state_err("btc_tx"))
+            ),
+            None => {
+                self.btc_tx = Some(btc_tx);
                 Ok(self)
             }
         }
@@ -152,5 +177,14 @@ impl State {
     pub fn get_btc_address(&self) -> Result<String> {
         self.get_btc_private_key()
             .map(|pk| pk.to_p2pkh_btc_address())
+    }
+
+    pub fn get_btc_tx(&self) -> Result<&BtcTransaction> {
+        match &self.btc_tx {
+            Some(btc_tx) => Ok(&btc_tx),
+            None => Err(AppError::Custom(
+                get_not_in_state_err("btc_tx"))
+            )
+        }
     }
 }
