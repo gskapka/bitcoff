@@ -1,8 +1,8 @@
 #!/bin/bash
 ./target/release/btc-tx-maker makeOpReturnTx \
-moBSQbHn7N9BC9pdtAMnA7GBiALzNMQJyE \
+mudzxCq9aCQ4Una9MmayvJVCF1Tj9fypiM \
+1337 \
 c0ffee \
 --network=Testnet \
 --change=moBSQbHn7N9BC9pdtAMnA7GBiALzNMQJyE \
---value=666 \
 --fee=24

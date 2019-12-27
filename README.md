@@ -1,6 +1,6 @@
-# :fire: A BTC Transaction Maker
+# :fire: An Offline (|| Online!) BTC Transaction Maker
 
-A simple Rust CLI for making BTC transactions given a __`UTXO`__ to spend.
+A simple Rust CLI for making BTC transactions given a __`UTXO`__ to spend. Can be run in on- or offline modes depending on your requirements. Offline mode makes zero API calls and thus can be run on an air-gapped machine with no issues.
 
 &nbsp;
 
@@ -76,3 +76,4 @@ __`❍ cargo +nightly test`__
  [ ] Make endpoint configurable?
  [ ] Have online version pull UTXO list from API, then pull each tx and get the utxos that way.
  [ ] When implementing the above, option to use ALL utxos maybe to sweep them up into a single one for future use?
+ [ ] Have a flag which when used will use only the first address supplied and will ignore the amount and instead sweep the full balance.
