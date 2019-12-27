@@ -5,6 +5,7 @@ use rand::{
     thread_rng,
 };
 use crate::{
+    state::State,
     errors::AppError,
     types::{
         Bytes,
@@ -32,6 +33,16 @@ use bitcoin::{
         },
     },
 };
+
+pub fn serialize_btc_tx_to_hex(tx: &BtcTransaction) -> String {
+    hex::encode(&btc_serialize(tx))
+}
+
+pub fn serialize_tx_in_state(state: State) -> Result<String> {
+    state
+        .get_btc_tx()
+        .map(serialize_btc_tx_to_hex)
+}
 
 pub fn make_api_call(url: &str, error_message: &str) -> Result<String> {
     match reqwest::get(url) { 
