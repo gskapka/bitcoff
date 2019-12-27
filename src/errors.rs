@@ -7,11 +7,11 @@ pub enum AppError {
     IOError(std::io::Error),
     HexError(hex::FromHexError),
     SecpError(secp256k1::Error),
+    SerdeJsonError(serde_json::Error),
     Base58Error(crate::base58::Error),
     FromUtf8Error(std::str::Utf8Error),
     BitcoinError(bitcoin::consensus::encode::Error),
     /*
-    SerdeJsonError(serde_json::Error),
     NoneError(std::option::NoneError),
     SetLoggerError(log::SetLoggerError),
     ParseIntError(std::num::ParseIntError),
@@ -32,13 +32,13 @@ impl fmt::Display for AppError {
                 format!("✘ Base58 Error!\n✘ {}", e),
             AppError::BitcoinError(ref e) =>
                 format!("✘ Bitcoin Error!\n✘ {}", e),
+            AppError::SerdeJsonError(ref e) =>
+                format!("✘ Serde-Json Error!\n✘ {}", e),
             AppError::FromUtf8Error(ref e) =>
                 format!("✘ From utf8 error: \n✘ {:?}", e),
             AppError::SecpError(ref e) =>
                 format!("✘ secp256k1 error: \n✘ {:?}", e),
             /*
-            AppError::SerdeJsonError(ref e) =>
-                format!("✘ Serde-Json Error!\n✘ {}", e),
             AppError::NoneError(ref e) =>
                 format!("✘ Nothing to unwrap!\n✘ {:?}", e),
             AppError::BitcoinAddressError(ref e) =>
@@ -86,6 +86,13 @@ impl From<crate::base58::Error> for AppError {
         AppError::Base58Error(e)
     }
 }
+
+impl From<serde_json::Error> for AppError {
+    fn from(e: serde_json::Error) -> AppError {
+        AppError::SerdeJsonError(e)
+    }
+}
+
 /*
  *
 impl Error for AppError {
@@ -97,12 +104,6 @@ impl Error for AppError {
 impl From<std::option::NoneError> for AppError {
     fn from(e: std::option::NoneError) -> AppError {
         AppError::NoneError(e)
-    }
-}
-
-impl From<serde_json::Error> for AppError {
-    fn from(e: serde_json::Error) -> AppError {
-        AppError::SerdeJsonError(e)
     }
 }
 

@@ -32,6 +32,23 @@ pub struct UtxoInfo {
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+pub struct BtcUtxoAndValueJson {
+    pub utxo_value: u64,
+    pub utxo_hex: String,
+}
+
+impl BtcUtxoAndValueJson { // TODO test!
+    pub fn from_utxo_and_value(
+        utxo_and_value: &BtcUtxoAndValue
+    ) -> Self {
+        BtcUtxoAndValueJson {
+            utxo_value: utxo_and_value.value, 
+            utxo_hex: hex::encode(utxo_and_value.serialized_utxo.clone()),
+        }
+    }
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct BtcUtxoAndValue {
     pub value: u64,
     pub serialized_utxo: Bytes,

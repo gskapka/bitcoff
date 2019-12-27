@@ -58,7 +58,7 @@ fn get_btc_private_key_from_wif(btc_pk_wif: String) -> Result<BtcPrivateKey> {
     Ok(btc_pk)
 }
 
-pub fn maybe_get_btc_private_key_and_add_to_state(
+pub fn get_btc_private_key_and_add_to_state(
     state: State
 ) -> Result<State> {
     info!("✔ Maybe getting BTC private key & adding to state...");

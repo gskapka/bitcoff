@@ -11,7 +11,7 @@ A maker of BTC transactions!
 ❍ Usage ❍
 
 Usage:  btcoff --help
-        btcoff getUtxos [--keyfile=<path>]
+        btcoff getUtxos [--keyfile=<path>] [--network=<string>]
         btcoff makeOnlineOpReturnTx (<to> <amount>)... <data> [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>]
 
 Commands:
@@ -23,12 +23,12 @@ Commands:
                             [
                                 { 
                                     utxo_hex: <0x...>,
-                                    utxo_value: <value>, 
+                                    utxo_value: <value-in-Satoshis>, 
                                 },...
                             ]
 
     makeOnlineOpReturnTx  ❍ Create an `OP_RETURN` transaction, pay the `to` 
-                            address via a `p2pkh` transactin and where the 
+                            address via a `p2pkh` transaction and where the 
                             `OP_RETURN` output contains the <data> supplied. In
                             this online version, available UTXOs for the address
                             of the private-key supplied are pulled from a block
