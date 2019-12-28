@@ -7,6 +7,7 @@ pub mod base58;
 pub mod errors;
 pub mod get_utxos;
 pub mod constants;
+pub mod utxo_codec;
 pub mod test_utils;
 pub mod usage_info;
 pub mod save_output;
