@@ -30,7 +30,7 @@ use crate::{
     errors::AppError,
     get_utxos::get_utxos,
     usage_info::USAGE_INFO,
-    initialize_logger::initialize_logger,
+    initialize_logger::maybe_initialize_logger_and_return_cli_args,
     make_online_op_return_transaction::make_online_op_return_transaction,
     get_cli_args::{
         CliArgs,
@@ -39,8 +39,8 @@ use crate::{
 };
 
 fn main() -> Result<()> {
-    match initialize_logger()
-        .and_then(|_| get_cli_args())
+    match get_cli_args()
+        .and_then(maybe_initialize_logger_and_return_cli_args)
         .and_then(|cli_args|
             match cli_args {
                 CliArgs {cmd_getUtxos: true, ..} => 
@@ -51,11 +51,11 @@ fn main() -> Result<()> {
             }
         ) {
             Ok(json_string) => {
-                info!("{}", json_string);
+                println!("{}", json_string);
                 Ok(())
             },
             Err(e) => {
-                error!("{}", e);
+                println!("{}", e);
                 std::process::exit(1);
             }
         }

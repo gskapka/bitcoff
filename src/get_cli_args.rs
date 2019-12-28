@@ -23,6 +23,7 @@ pub struct CliArgs {
     pub arg_amount: Vec<u64>, 
     pub flag_keyfile: String,
     pub flag_utxoFile: String, 
+    pub flag_logLevel: String,
     pub arg_tx_id: Vec<String>,
     pub arg_utxo_indices: Vec<u32>,
     pub cmd_makeOnlineOpReturnTx: bool,
@@ -65,10 +66,11 @@ pub fn get_api_endpoint_from_cli_args(network_cli_arg: &String) -> String {
 }
 
 pub fn get_cli_args() -> Result<CliArgs> {
-    info!("✔ Getting CLI args...");
     match Docopt::new(USAGE_INFO) 
         .and_then(|d| d.deserialize()) {
             Ok(cli_args) => Ok(cli_args),
-            Err(e) => Err(AppError::Custom(e.to_string()))
+            Err(e) => Err(AppError::Custom(
+                format!("✘ Docopt error: {}", e)
+            ))
         }
 }

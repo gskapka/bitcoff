@@ -6,4 +6,5 @@ c0ffee \
 --network=Testnet \
 --change=moBSQbHn7N9BC9pdtAMnA7GBiALzNMQJyE \
 --fee=24 \
---outputPath="./make-online-op-return-output"
+--outputPath="./make-online-op-return-output" \
+--logLevel="debug"

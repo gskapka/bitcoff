@@ -11,9 +11,9 @@ A maker of BTC transactions!
 ❍ Usage ❍
 
 Usage:  btcoff --help
-        btcoff getUtxos [--keyfile=<path>] [--network=<string>] [--outputPath=<path>]
-        btcoff makeOnlineOpReturnTx (<to> <amount>)... <data> [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>]
-        btcoff makeOfflineOpReturnTx (<to> <amount>)... <data> (--utxoFile=<path> | <utxos>) [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>]
+        btcoff getUtxos [--keyfile=<path>] [--network=<string>] [--outputPath=<path>] [--logLevel=<level>]
+        btcoff makeOnlineOpReturnTx (<to> <amount>)... <data> [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
+        btcoff makeOfflineOpReturnTx (<to> <amount>)... <data> (--utxoFile=<path> | <utxos>) [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
 
 Commands:
 
@@ -75,6 +75,10 @@ Options:
                            [default: Bitcoin]
 
     --outputPath=<path>  ❍ Save the tool's output to given path.
+
+    --logLevel=<level>   ❍ Define the level of logging in the tool's output as
+                           one of: `none`, `info`, `debug`, `trace` or `error`.
+                           [default: info]
 
     --keyfile=<path>     ❍ Path to GPG-encrypted BTC private key in wallet 
                            import format (`WIF`).
