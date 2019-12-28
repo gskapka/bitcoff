@@ -14,13 +14,18 @@ pub fn maybe_initialize_logger_and_return_cli_args(
         "none" => Ok(cli_args),
         _ => match TermLogger::init(
             match &cli_args.flag_logLevel[..] {
-                "info" => LevelFilter::Info,
-                "warn" => LevelFilter::Warn,
-                "debug" => LevelFilter::Debug,
-                "error" => LevelFilter::Error,
-                "trace" => LevelFilter::Trace,
-                _ => LevelFilter::Trace,
-            },
+                "info" => Ok(LevelFilter::Info),
+                "warn" => Ok(LevelFilter::Warn),
+                "debug" => Ok(LevelFilter::Debug),
+                "error" => Ok(LevelFilter::Error),
+                "trace" => Ok(LevelFilter::Trace),
+                _ => Err(AppError::Custom(
+                    format!(
+                        "✘ Not a valid log level: '{}'", 
+                        cli_args.flag_logLevel
+                    )
+                ))
+            }?,
             Config::default(),
             TerminalMode::Mixed,
         ) {

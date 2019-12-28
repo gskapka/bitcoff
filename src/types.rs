@@ -23,6 +23,7 @@ pub type BtcTransactions = Vec<BtcTransaction>;
 pub type Result<T> = result::Result<T, AppError>;
 pub type BtcUtxosAndValues = Vec<BtcUtxoAndValue>;
 pub type BtcAddressesAndAmounts = Vec<(String, u64)>;
+pub type BtcUtxoAndValueJsons = Vec<BtcUtxoAndValueJson>;
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct UtxoInfo {

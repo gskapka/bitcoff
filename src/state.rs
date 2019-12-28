@@ -26,6 +26,7 @@ pub struct State {
     pub api_endpoint: String,
     pub utxos_info: Option<UtxosInfo>,
     pub btc_tx: Option<BtcTransaction>,
+    pub utxo_json_string: Option<String>,
     pub btc_txs: Option<BtcTransactions>,
     pub btc_private_key: Option<BtcPrivateKey>,
     pub addresses_and_amounts: BtcAddressesAndAmounts,
@@ -60,6 +61,7 @@ impl State {
                 btc_txs: None,
                 utxos_info: None,
                 btc_private_key: None,
+                utxo_json_string: None,
                 btc_utxos_and_values: None,
             }
         )
@@ -87,6 +89,21 @@ impl State {
             ),
             None => {
                 self.btc_tx = Some(btc_tx);
+                Ok(self)
+            }
+        }
+    }
+
+    pub fn add_utxo_json_string(
+        mut self, 
+        utxo_json_string: String
+    ) -> Result<State> {
+        match self.utxo_json_string {
+            Some(_) => Err(AppError::Custom(
+                get_no_overwrite_state_err("utxo_json_string"))
+            ),
+            None => {
+                self.utxo_json_string = Some(utxo_json_string);
                 Ok(self)
             }
         }
@@ -184,6 +201,15 @@ impl State {
             Some(btc_tx) => Ok(&btc_tx),
             None => Err(AppError::Custom(
                 get_not_in_state_err("btc_tx"))
+            )
+        }
+    }
+
+    pub fn get_utxo_json_string(&self) -> Result<&String> {
+        match &self.utxo_json_string {
+            Some(utxo_json_string) => Ok(&utxo_json_string),
+            None => Err(AppError::Custom(
+                get_not_in_state_err("utxo_json_string"))
             )
         }
     }

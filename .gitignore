@@ -9,3 +9,4 @@ target/
 **/*.rs.bk
 **/get-utxos-output
 **/make-online-op-return-output
+**/make-offline-op-return-output
