@@ -15,12 +15,14 @@ use crate::{
 pub struct CliArgs {
     pub flag_fee: usize,
     pub arg_data: String,
+    pub arg_utxos: String,
     pub cmd_getUtxos: bool,
     pub arg_to: Vec<String>, // FIXME How to check is valid address?
     pub flag_change: String, // FIXME How to check is valid address?
     pub flag_network: String,
     pub arg_amount: Vec<u64>, 
     pub flag_keyfile: String,
+    pub flag_utxoFile: String, 
     pub arg_tx_id: Vec<String>,
     pub arg_utxo_indices: Vec<u32>,
     pub cmd_makeOnlineOpReturnTx: bool,
