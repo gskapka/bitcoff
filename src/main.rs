@@ -6,6 +6,7 @@ pub mod utils;
 pub mod base58;
 pub mod errors;
 pub mod get_utxos;
+pub mod create_tx;
 pub mod constants;
 pub mod utxo_codec;
 pub mod test_utils;
@@ -19,6 +20,7 @@ pub mod initialize_logger;
 pub mod create_op_return_tx;
 pub mod get_btc_private_key;
 pub mod get_utxo_json_string;
+pub mod make_online_transaction;
 pub mod get_btc_txs_from_utxos_info;
 pub mod extract_utxos_from_utxo_info;
 pub mod make_online_op_return_transaction;
@@ -32,6 +34,7 @@ use crate::{
     errors::AppError,
     get_utxos::get_utxos,
     usage_info::USAGE_INFO,
+    make_online_transaction::make_online_transaction,
     initialize_logger::maybe_initialize_logger_and_return_cli_args,
     make_online_op_return_transaction::make_online_op_return_transaction,
     make_offline_op_return_transaction::make_offline_op_return_transaction,
@@ -48,6 +51,8 @@ fn main() -> Result<()> {
             match cli_args {
                 CliArgs {cmd_getUtxos: true, ..} => 
                     get_utxos(cli_args),
+                CliArgs {cmd_makeOnlineTx: true, ..} => 
+                    make_online_transaction(cli_args),
                 CliArgs {cmd_makeOnlineOpReturnTx: true, ..} => 
                     make_online_op_return_transaction(cli_args),
                 CliArgs {cmd_makeOfflineOpReturnTx: true, ..} => 

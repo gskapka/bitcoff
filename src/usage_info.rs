@@ -12,6 +12,7 @@ A maker of BTC transactions!
 
 Usage:  btcoff --help
         btcoff getUtxos [--keyfile=<path>] [--network=<string>] [--outputPath=<path>] [--logLevel=<level>]
+        btcoff makeOnlineTx (<to> <amount>)... [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff makeOnlineOpReturnTx (<to> <amount>)... <data> [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff makeOfflineOpReturnTx (<to> <amount>)... <data> (--utxoFile=<path> | <utxos>) [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
 
@@ -27,6 +28,10 @@ Commands:
                                     utxo_value: <value-in-Satoshis>,
                                 },...
                             ]
+
+    makeOnlineTx          ❍ Create a simple BTC transaction to one or more 
+                            addresses. This online version will grab the UTXO 
+                            set for the private key you provide via an API call.
 
     makeOfflineOpReturnTx ❍ Create an `OP_RETURN` transaction, pay the `to` 
                             address via a `p2pkh` transaction and where the 

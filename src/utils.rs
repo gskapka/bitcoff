@@ -34,6 +34,16 @@ use bitcoin::{
     },
 };
 
+pub fn get_change_address_from_cli_args_in_state(
+    state: &State
+) -> Result<String> {
+    info!("✔ Getting change-address from CLI args in state...");
+    match &state.cli_args.flag_change[..] {
+        "signer" => Ok(state.get_btc_address()?.clone()),
+        _ => Ok(state.cli_args.flag_change.clone())
+    }
+}
+
 pub fn serialize_btc_tx_to_hex(tx: &BtcTransaction) -> String {
     hex::encode(&btc_serialize(tx))
 }

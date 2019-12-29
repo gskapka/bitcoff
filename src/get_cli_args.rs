@@ -22,6 +22,7 @@ pub struct CliArgs {
     pub arg_amount: Vec<u64>, 
     pub flag_keyfile: String,
     pub flag_logLevel: String,
+    pub cmd_makeOnlineTx: bool,
     pub arg_tx_id: Vec<String>,
     pub arg_utxos: Option<String>,
     pub arg_utxo_indices: Vec<u32>,
