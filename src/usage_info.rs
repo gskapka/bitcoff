@@ -13,6 +13,7 @@ A maker of BTC transactions!
 Usage:  btcoff --help
         btcoff getUtxos [--keyfile=<path>] [--network=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff makeOnlineTx (<to> <amount>)... [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
+        btcoff makeOfflineTx (<to> <amount>)... (--utxoFile=<path> | <utxos>) [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff makeOnlineOpReturnTx (<to> <amount>)... <data> [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff makeOfflineOpReturnTx (<to> <amount>)... <data> (--utxoFile=<path> | <utxos>) [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
 
@@ -29,9 +30,27 @@ Commands:
                                 },...
                             ]
 
-    makeOnlineTx          ❍ Create a simple BTC transaction to one or more 
+    makeOnlineTx          ❍ Create a simple BTC p2pkh transaction to one or more 
                             addresses. This online version will grab the UTXO 
                             set for the private key you provide via an API call.
+
+    makeOfflineTx          ❍ Create a simple BTC transaction to one or more 
+                            addresses. In this offline version, the UTXOs must 
+                            be passed in via as either a JSON string, or from a 
+                            file, both of which must use the JSON format:
+                            [
+                                {
+                                    utxo_hex: <0x...>,
+                                    utxo_value: <value-in-Satoshis>,
+                                },...
+                            ]
+
+    makeOnlineOpReturnTx  ❍ Create an `OP_RETURN` transaction, pay the `to` 
+                            address via a `p2pkh` transaction and where the 
+                            `OP_RETURN` output contains the <data> supplied. In
+                            this online version, available UTXOs for the address
+                            of the private-key supplied are pulled from a block
+                            explorer.
 
     makeOfflineOpReturnTx ❍ Create an `OP_RETURN` transaction, pay the `to` 
                             address via a `p2pkh` transaction and where the 
@@ -46,13 +65,6 @@ Commands:
                                     utxo_value: <value-in-Satoshis>,
                                 },...
                             ]
-
-    makeOnlineOpReturnTx  ❍ Create an `OP_RETURN` transaction, pay the `to` 
-                            address via a `p2pkh` transaction and where the 
-                            `OP_RETURN` output contains the <data> supplied. In
-                            this online version, available UTXOs for the address
-                            of the private-key supplied are pulled from a block
-                            explorer.
 
     <to>                  ❍ Address to send the transaction to.
 
