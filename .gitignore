@@ -9,5 +9,6 @@ target/
 **/*.rs.bk
 **/examples/get-utxos-output
 **/examples/make-online-tx-output
+**/examples/make-offline-tx-output
 **/examples/make-offline-op-return-output
 **/examples/make-online-op-return-output
