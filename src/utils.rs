@@ -1,4 +1,5 @@
 use reqwest;
+use std::str::FromStr;
 use secp256k1::SecretKey;
 use rand::{
     RngCore,
@@ -17,6 +18,7 @@ use crate::{
     },
 };
 use bitcoin::{
+    util::address::Address as BtcAddress,
     consensus::encode::serialize as btc_serialize,
     consensus::encode::deserialize as btc_deserialize,
     blockdata::{
@@ -78,15 +80,16 @@ pub fn make_api_call(url: &str, error_message: &str) -> Result<String> {
     }
 }
 
-pub fn create_new_tx_output(value: u64, script: BtcScript) -> BtcTxOut {
-    BtcTxOut { value, script_pubkey: script }
-}
-
-pub fn create_new_pay_to_pub_key_hash_output(
-    value: &u64,
-    recipient: &str,
+pub fn create_new_tx_output(
+    amount_in_satoshis : &u64, 
+    btc_address: &str,
 ) -> Result<BtcTxOut> {
-    Ok(create_new_tx_output(*value, get_pay_to_pub_key_hash_script(recipient)?))
+    Ok(
+        BtcTxOut { 
+            value: *amount_in_satoshis, 
+            script_pubkey: BtcAddress::from_str(btc_address)?.script_pubkey(),
+        }
+    )
 }
 
 pub fn get_script_sig<'a>(
@@ -151,21 +154,6 @@ fn get_op_return_script(op_return_bytes: &Bytes) -> Result<BtcScript> {
         script
             .push_opcode(opcodes::all::OP_RETURN)
             .push_slice(op_return_bytes)
-            .into_script()
-    )
-}
-
-pub fn get_pay_to_pub_key_hash_script(btc_address: &str) -> Result<BtcScript> {
-    let script = BtcScriptBuilder::new();
-    Ok(
-        script
-            .push_opcode(opcodes::all::OP_DUP)
-            .push_opcode(opcodes::all::OP_HASH160)
-            .push_slice(
-                &convert_btc_address_to_pub_key_hash_bytes(btc_address)?[..]
-            )
-            .push_opcode(opcodes::all::OP_EQUALVERIFY)
-            .push_opcode(opcodes::all::OP_CHECKSIG)
             .into_script()
     )
 }

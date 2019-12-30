@@ -11,11 +11,11 @@ pub enum AppError {
     Base58Error(crate::base58::Error),
     FromUtf8Error(std::str::Utf8Error),
     BitcoinError(bitcoin::consensus::encode::Error),
+    BitcoinAddressError(bitcoin::util::address::Error),
     /*
     NoneError(std::option::NoneError),
     SetLoggerError(log::SetLoggerError),
     ParseIntError(std::num::ParseIntError),
-    BitcoinAddressError(bitcoin::util::address::Error),
     */
 }
 
@@ -38,11 +38,11 @@ impl fmt::Display for AppError {
                 format!("✘ From utf8 error: \n✘ {:?}", e),
             AppError::SecpError(ref e) =>
                 format!("✘ secp256k1 error: \n✘ {:?}", e),
+            AppError::BitcoinAddressError(ref e) =>
+                format!("✘ Bitcoin Address Error!\n✘ {}", e),
             /*
             AppError::NoneError(ref e) =>
                 format!("✘ Nothing to unwrap!\n✘ {:?}", e),
-            AppError::BitcoinAddressError(ref e) =>
-                format!("✘ Bitcoin Address Error!\n✘ {}", e),
             AppError::SetLoggerError(ref e) =>
                 format!("✘ Error setting up logger!\n✘ {}", e),
             */
@@ -93,6 +93,11 @@ impl From<serde_json::Error> for AppError {
     }
 }
 
+impl From<bitcoin::util::address::Error> for AppError {
+    fn from(e: bitcoin::util::address::Error) -> AppError {
+        AppError::BitcoinAddressError(e)
+    }
+}
 /*
  *
 impl Error for AppError {
@@ -113,9 +118,4 @@ impl From<log::SetLoggerError> for AppError {
     }
 }
 
-impl From<bitcoin::util::address::Error> for AppError {
-    fn from(e: bitcoin::util::address::Error) -> AppError {
-        AppError::BitcoinAddressError(e)
-    }
-}
 */

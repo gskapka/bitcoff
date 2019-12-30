@@ -5,6 +5,8 @@ mudzxCq9aCQ4Una9MmayvJVCF1Tj9fypiM \
 666 \
 mwqqpopcLxEFUCPGGPV7zpfm3xrSAjRcyq \
 1337 \
+2N88QH8W9iRLoW3sA4Ke1oFHwMshtMrUVos \
+1 \
 --utxoFile="./get-utxos-output" \
 --network=Testnet \
 --change=moBSQbHn7N9BC9pdtAMnA7GBiALzNMQJyE \

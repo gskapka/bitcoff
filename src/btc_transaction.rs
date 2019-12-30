@@ -4,9 +4,9 @@ use crate::{
     btc_private_key::BtcPrivateKey,
     utils::{
         get_script_sig,
+        create_new_tx_output,
         calculate_btc_tx_fee,
         get_total_value_of_utxos_and_values,
-        create_new_pay_to_pub_key_hash_output,
     },
     types::{
         Bytes,
@@ -62,21 +62,15 @@ pub fn create_signed_raw_btc_tx_for_n_input_n_outputs(
         _ => {
             let mut outputs = recipient_addresses_and_amounts
                 .iter()
-                .map(|(address, amount)|
-                    create_new_pay_to_pub_key_hash_output(amount, address)
-                 )
-                .flatten()
-                .collect::<Vec<BtcTxOut>>();
+                .map(|(address, amount)| create_new_tx_output(&amount, address))
+                .collect::<Result<Vec<BtcTxOut>>>()?;
             if let Some(op_return_output) = maybe_op_return_output {
                 outputs.push(op_return_output);
             };
             let change = utxo_total - total_to_spend - fee;
             if change > 0 {
                 outputs.push(
-                    create_new_pay_to_pub_key_hash_output(
-                        &change,
-                        remainder_btc_address
-                    )?
+                    create_new_tx_output(&change, remainder_btc_address)?
                 )
             };
             let tx = BtcTransaction {
