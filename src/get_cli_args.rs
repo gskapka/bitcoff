@@ -1,5 +1,9 @@
 use docopt::Docopt;
 use bitcoin::network::constants::Network as BtcNetwork;
+use std::time::{
+    SystemTime, 
+    UNIX_EPOCH,
+};
 use crate::{
     errors::AppError,
     usage_info::USAGE_INFO,
@@ -13,6 +17,7 @@ use crate::{
 #[allow(non_snake_case)]
 #[derive(Clone, Debug, Deserialize, PartialEq)]
 pub struct CliArgs {
+    pub flag_nonce: u64,
     pub flag_fee: usize,
     pub arg_data: String,
     pub cmd_getUtxos: bool,
@@ -22,7 +27,9 @@ pub struct CliArgs {
     pub arg_amount: Vec<u64>, 
     pub flag_keyfile: String,
     pub flag_logLevel: String,
+    pub arg_recipient: String,
     pub cmd_makeOnlineTx: bool,
+    pub arg_ethAddress: String,
     pub arg_tx_id: Vec<String>,
     pub cmd_makeOfflineTx: bool,
     pub arg_utxos: Option<String>,
@@ -30,6 +37,7 @@ pub struct CliArgs {
     pub flag_utxoFile: Option<String>, 
     pub cmd_makeOnlineOpReturnTx: bool,
     pub cmd_makeOfflineOpReturnTx: bool,
+    pub cmd_getPBTCDepositAddress: bool,
     pub flag_outputPath: Option<String>,
 }
 
@@ -55,6 +63,21 @@ pub fn get_network_from_cli_arg(network_cli_arg: &String) -> BtcNetwork {
             info!("✔ Using network: 'Bitcoin'");
             BtcNetwork::Bitcoin
         }
+    }
+}
+
+pub fn get_nonce_from_cli_arg(nonce_cli_arg: &u64) -> Result<u64> {
+    info!("✔ Getting nonce from cli-arg: `{}`", nonce_cli_arg);
+    match nonce_cli_arg {
+        0 => {
+            info!("✔ Using timestamp as nonce!");
+            Ok(
+                SystemTime::now()
+                    .duration_since(UNIX_EPOCH)?
+                    .as_secs()
+            )
+        }
+        _ => Ok(*nonce_cli_arg),
     }
 }
 

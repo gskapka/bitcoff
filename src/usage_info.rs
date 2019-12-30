@@ -11,6 +11,7 @@ A maker of BTC transactions!
 ❍ Usage ❍
 
 Usage:  btcoff --help
+        btcoff getPBTCDepositAddress <recipient> <ethAddress> [--nonce=<uint>] [--keyfile=<path>] [--network=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff getUtxos [--keyfile=<path>] [--network=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff makeOnlineTx (<to> <amount>)... [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff makeOfflineTx (<to> <amount>)... (--utxoFile=<path> | <utxos>) [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
@@ -18,6 +19,9 @@ Usage:  btcoff --help
         btcoff makeOfflineOpReturnTx (<to> <amount>)... <data> (--utxoFile=<path> | <utxos>) [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
 
 Commands:
+
+    getPBTCDepositAddress ❍ Generate a BTC deposit address for a given ETH 
+                            address for the Provable pBTC
 
     getUtxos              ❍ *Needs internet connection!* Makes API call to get 
                             all UTXOs associated with address derived from the
@@ -72,6 +76,10 @@ Commands:
 
     <data>                ❍ The hex data for the `OP_RETURN` output.
 
+    <ethAddress>          ❍ An ethereum address, in hex format.
+
+    <recipient>           ❍ The BTC recipient address.
+
     <utxos>               ❍ The UTXOs required for a BTC transaction, as a 
                             valid JSON string in the form:
                             [
@@ -100,6 +108,10 @@ Options:
     --keyfile=<path>     ❍ Path to GPG-encrypted BTC private key in wallet 
                            import format (`WIF`).
                            [default: ./encrypted-btc-private-key.gpg]
+
+    --nonce=<uint>       ❍ A nonce to be combined with the ETH address before
+                           hashing. A nonce of '0' will use a unix timestamp 
+                           instead. [default: 0]
 
     --change=<string>    ❍ Address to send any change to. Defaults to address 
                            of the private key used for the transaction.
