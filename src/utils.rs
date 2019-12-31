@@ -99,7 +99,7 @@ pub fn get_script_sig<'a>(
     let script_builder = BtcScriptBuilder::new();
     script_builder
         .push_slice(&signature_slice)
-        .push_slice(&utxo_spender_pub_key_slice)
+        .push_slice(&utxo_spender_pub_key_slice) 
         .into_script()
 }
 

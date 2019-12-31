@@ -13,6 +13,7 @@ A maker of BTC transactions!
 Usage:  btcoff --help
         btcoff getPBTCDepositAddress <recipient> <ethAddress> [--nonce=<uint>] [--keyfile=<path>] [--network=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff getUtxos [--keyfile=<path>] [--network=<string>] [--outputPath=<path>] [--logLevel=<level>]
+        btcoff getUtxosForAddress <btcAddress> [--network=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff makeOnlineTx (<to> <amount>)... [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff makeOfflineTx (<to> <amount>)... (--utxoFile=<path> | <utxos>) [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff makeOnlineOpReturnTx (<to> <amount>)... <data> [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
@@ -26,7 +27,17 @@ Commands:
     getUtxos              ❍ *Needs internet connection!* Makes API call to get 
                             all UTXOs associated with address derived from the
                             encrypted private key. UTXOs are presented in the
-                            following JSON format: 
+                            following JSON format:
+                            [
+                                {
+                                    utxo_hex: <0x...>,
+                                    utxo_value: <value-in-Satoshis>,
+                                },...
+                            ]
+
+    getUtxosForAddress    ❍ *Needs internet connection!* Makes API call to get 
+                            all UTXOs associated with supplied BTC address 
+                            UTXOs are presented in the following JSON format:
                             [
                                 {
                                     utxo_hex: <0x...>,
@@ -75,6 +86,8 @@ Commands:
     <amount>              ❍ Amount to send (in Satoshis).
 
     <data>                ❍ The hex data for the `OP_RETURN` output.
+
+    <btcAddress>          ❍ A bitcoin address.
 
     <ethAddress>          ❍ An ethereum address, in hex format.
 
