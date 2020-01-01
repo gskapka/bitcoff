@@ -1,7 +1,7 @@
 #!/bin/bash
 ../target/release/btc-tx-maker \
 getUtxosForAddress \
-2N88QH8W9iRLoW3sA4Ke1oFHwMshtMrUVos \
---network=Testnet \
+2N2LHYbt8K1KDBogd6XUG9VBv5YM6xefdM2 \
+--network="testnet" \
 --outputPath="./get-utxos-for-address-output" \
 --logLevel="debug" 

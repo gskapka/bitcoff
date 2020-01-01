@@ -1,9 +1,12 @@
 use bitcoin::{
     network::constants::Network as BtcNetwork,
-    blockdata::transaction::Transaction as BtcTransaction,
     hashes::{
         Hash,
         sha256d,
+    },
+    blockdata::{
+        script::Script as BtcScript,
+        transaction::Transaction as BtcTransaction,
     },
 };
 use crate::{
@@ -29,6 +32,7 @@ pub struct State {
     pub cli_args: CliArgs,
     pub network: BtcNetwork,
     pub api_endpoint: String,
+    pub btc_script: Option<BtcScript>,
     pub utxos_info: Option<UtxosInfo>,
     pub btc_tx: Option<BtcTransaction>,
     pub eth_address_bytes: Option<Bytes>,
@@ -67,6 +71,7 @@ impl State {
                 btc_tx: None,
                 btc_txs: None,
                 utxos_info: None,
+                btc_script: None,
                 btc_private_key: None,
                 utxo_json_string: None,
                 eth_address_bytes: None,
@@ -86,6 +91,21 @@ impl State {
             ),
             None => {
                 self.btc_private_key = Some(btc_private_key);
+                Ok(self)
+            }
+        }
+    }
+
+    pub fn add_btc_script( 
+        mut self,
+        btc_script: BtcScript,
+    ) -> Result<State> {
+        match self.btc_script {
+            Some(_) => Err(AppError::Custom(
+                get_no_overwrite_state_err("btc_script"))
+            ),
+            None => {
+                self.btc_script = Some(btc_script);
                 Ok(self)
             }
         }
@@ -267,6 +287,15 @@ impl State {
             Some(eth_address_and_nonce_hash) => Ok(&eth_address_and_nonce_hash),
             None => Err(AppError::Custom(
                 get_not_in_state_err("eth_address_and_nonce_hash"))
+            )
+        }
+    }
+
+    pub fn get_btc_script(&self) -> Result<&BtcScript> {
+        match &self.btc_script {
+            Some(btc_script) => Ok(&btc_script),
+            None => Err(AppError::Custom(
+                get_not_in_state_err("btc_script"))
             )
         }
     }
