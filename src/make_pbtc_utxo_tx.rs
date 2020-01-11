@@ -65,6 +65,7 @@ pub fn get_pbtc_script_sig<'a>(
         .into_script()
 }
 
+/*
 pub fn get_redeem_script_for_signing<'a>(
     redeem_script: &BtcScript,
 ) -> BtcScript {
@@ -73,6 +74,7 @@ pub fn get_redeem_script_for_signing<'a>(
         .push_slice(redeem_script.as_bytes())
         .into_script()
 }
+*/
 
 fn get_btc_script_and_put_in_state(state: State) -> Result<State> {
     info!("✔ Getting BTC redeem script and putting in state...");
@@ -207,17 +209,7 @@ pub fn create_signed_raw_btc_tx_for_n_input_n_outputs(
                 .map(|(i, utxo)|
                     tx.signature_hash(
                         i,
-                        //&utxo.script_sig,
-                        // so this should be the redeem script?
-                        // Changing these only changes the signature, obvs
                         &redeem_script,
-                        //&get_redeem_script_for_signing(redeem_script),
-                        /*
-                         * one more thing to try:
-                         * set this as a script that just pushed the serialized
-                         * redeem script to it, not the actual script itself!
-                         * If that doesn't work, back to the drawing board.
-                         */
                         SIGN_ALL_HASH_TYPE as u32
                     )
                 )
@@ -241,7 +233,6 @@ pub fn create_signed_raw_btc_tx_for_n_input_n_outputs(
                         sequence: utxo.sequence,
                         witness: utxo.witness.clone(),
                         previous_output: utxo.previous_output,
-                        // NOTE: The following is what differs from normal tx!
                         script_sig: get_pbtc_script_sig(
                             &signatures[i],
                             &redeem_script,

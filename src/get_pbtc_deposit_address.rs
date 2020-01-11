@@ -104,41 +104,12 @@ pub fn generate_pbtc_script_sig<'a>(
         "✔ Generating pBTC `script_sig` for recipient: {}",
         recipient,
     );
-    debug!("Pub key: {}", hex::encode(utxo_spender_pub_key_slice));
-    debug!("Eth address and nonce hash: {}", eth_address_and_nonce_hash);
-    debug!("Eth address and nonce hash: {}", eth_address_and_nonce_hash);
-    debug!(
-        "Eth address and nonce hash bytes: {:?}", 
-        eth_address_and_nonce_hash.as_ref()
-    );
-    debug!(
-        "Test: {}", 
-        hex::encode(&eth_address_and_nonce_hash[..]) // This is wrong endianess!
-    );
     let script = BtcScriptBuilder::new()
         .push_slice(&eth_address_and_nonce_hash[..])
         .push_opcode(opcodes::all::OP_DROP)
         .push_slice(&utxo_spender_pub_key_slice)
         .push_opcode(opcodes::all::OP_CHECKSIG)
         .into_script();
-    let script_serialized = btc_serialize(&script.clone());
-    let script_serialized_2 = script.as_bytes().clone();
-    let script_hash_160 = hash160::Hash::hash(&script_serialized);
-    let script_2_hash_160 = hash160::Hash::hash(&script_serialized_2);
-    let script_hash_256 = sha256d::Hash::hash(&script_serialized);
-    let script_hash_both = hash160::Hash::hash(
-        &sha256::Hash::hash(&script_serialized[2..])
-    );
-    let script_hash_both_double = hash160::Hash::hash(
-        &sha256d::Hash::hash(&script_serialized[2..])
-    );
-    debug!("The script serialized: {}", hex::encode(script_serialized));
-    debug!("The script serialized_2: {}", hex::encode(script_serialized_2));
-    debug!("The script 160 hashed: {}", script_hash_160);
-    debug!("The script 2 160 hashed: {}", script_2_hash_160);
-    debug!("The script 256d hashed: {}", script_hash_256);
-    debug!("The script 160(256) hashed: {}", script_hash_both);
-    debug!("The script 160(256d) hashed: {}", script_hash_both_double);
     Ok(script)
 }
 
