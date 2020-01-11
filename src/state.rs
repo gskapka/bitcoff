@@ -1,9 +1,17 @@
 use bitcoin::{
     network::constants::Network as BtcNetwork,
-    blockdata::transaction::Transaction as BtcTransaction,
+    hashes::{
+        Hash,
+        sha256d,
+    },
+    blockdata::{
+        script::Script as BtcScript,
+        transaction::Transaction as BtcTransaction,
+    },
 };
 use crate::{
     types::{
+        Bytes,
         Result,
         UtxosInfo,
         BtcTransactions,
@@ -24,13 +32,16 @@ pub struct State {
     pub cli_args: CliArgs,
     pub network: BtcNetwork,
     pub api_endpoint: String,
+    pub btc_script: Option<BtcScript>,
     pub utxos_info: Option<UtxosInfo>,
     pub btc_tx: Option<BtcTransaction>,
+    pub eth_address_bytes: Option<Bytes>,
     pub utxo_json_string: Option<String>,
     pub btc_txs: Option<BtcTransactions>,
     pub btc_private_key: Option<BtcPrivateKey>,
     pub addresses_and_amounts: BtcAddressesAndAmounts,
     pub btc_utxos_and_values: Option<BtcUtxosAndValues>, 
+    pub eth_address_and_nonce_hash: Option<sha256d::Hash>,
 }
 
 pub fn get_no_overwrite_state_err(substring: &str) -> String {
@@ -60,9 +71,12 @@ impl State {
                 btc_tx: None,
                 btc_txs: None,
                 utxos_info: None,
+                btc_script: None,
                 btc_private_key: None,
                 utxo_json_string: None,
+                eth_address_bytes: None,
                 btc_utxos_and_values: None,
+                eth_address_and_nonce_hash: None,
             }
         )
     }
@@ -77,6 +91,51 @@ impl State {
             ),
             None => {
                 self.btc_private_key = Some(btc_private_key);
+                Ok(self)
+            }
+        }
+    }
+
+    pub fn add_btc_script( 
+        mut self,
+        btc_script: BtcScript,
+    ) -> Result<State> {
+        match self.btc_script {
+            Some(_) => Err(AppError::Custom(
+                get_no_overwrite_state_err("btc_script"))
+            ),
+            None => {
+                self.btc_script = Some(btc_script);
+                Ok(self)
+            }
+        }
+    }
+
+    pub fn add_eth_address_bytes( 
+        mut self,
+        eth_address_bytes: Bytes,
+    ) -> Result<State> {
+        match self.eth_address_bytes {
+            Some(_) => Err(AppError::Custom(
+                get_no_overwrite_state_err("eth_address_bytes"))
+            ),
+            None => {
+                self.eth_address_bytes = Some(eth_address_bytes);
+                Ok(self)
+            }
+        }
+    }
+
+    pub fn add_eth_address_and_nonce_hash( 
+        mut self,
+        eth_address_and_nonce_hash: sha256d::Hash,
+    ) -> Result<State> {
+        match self.eth_address_and_nonce_hash {
+            Some(_) => Err(AppError::Custom(
+                get_no_overwrite_state_err("eth_address_and_nonce_hash"))
+            ),
+            None => {
+                self.eth_address_and_nonce_hash = Some(eth_address_and_nonce_hash);
                 Ok(self)
             }
         }
@@ -210,6 +269,33 @@ impl State {
             Some(utxo_json_string) => Ok(&utxo_json_string),
             None => Err(AppError::Custom(
                 get_not_in_state_err("utxo_json_string"))
+            )
+        }
+    }
+
+    pub fn get_eth_address_bytes(&self) -> Result<&Bytes> {
+        match &self.eth_address_bytes {
+            Some(eth_address_bytes) => Ok(&eth_address_bytes),
+            None => Err(AppError::Custom(
+                get_not_in_state_err("eth_address_bytes"))
+            )
+        }
+    }
+
+    pub fn get_eth_address_and_nonce_hash(&self) -> Result<&sha256d::Hash> {
+        match &self.eth_address_and_nonce_hash {
+            Some(eth_address_and_nonce_hash) => Ok(&eth_address_and_nonce_hash),
+            None => Err(AppError::Custom(
+                get_not_in_state_err("eth_address_and_nonce_hash"))
+            )
+        }
+    }
+
+    pub fn get_btc_script(&self) -> Result<&BtcScript> {
+        match &self.btc_script {
+            Some(btc_script) => Ok(&btc_script),
+            None => Err(AppError::Custom(
+                get_not_in_state_err("btc_script"))
             )
         }
     }

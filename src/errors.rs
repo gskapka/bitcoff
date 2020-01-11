@@ -7,13 +7,14 @@ pub enum AppError {
     IOError(std::io::Error),
     HexError(hex::FromHexError),
     SecpError(secp256k1::Error),
+    NoneError(std::option::NoneError),
     SerdeJsonError(serde_json::Error),
     Base58Error(crate::base58::Error),
     FromUtf8Error(std::str::Utf8Error),
+    SystemTimeError(std::time::SystemTimeError),
     BitcoinError(bitcoin::consensus::encode::Error),
     BitcoinAddressError(bitcoin::util::address::Error),
     /*
-    NoneError(std::option::NoneError),
     SetLoggerError(log::SetLoggerError),
     ParseIntError(std::num::ParseIntError),
     */
@@ -34,15 +35,17 @@ impl fmt::Display for AppError {
                 format!("✘ Bitcoin Error!\n✘ {}", e),
             AppError::SerdeJsonError(ref e) =>
                 format!("✘ Serde-Json Error!\n✘ {}", e),
+            AppError::SystemTimeError(ref e) =>
+                format!("✘ System time error!\n✘ {}", e),
             AppError::FromUtf8Error(ref e) =>
                 format!("✘ From utf8 error: \n✘ {:?}", e),
             AppError::SecpError(ref e) =>
                 format!("✘ secp256k1 error: \n✘ {:?}", e),
+            AppError::NoneError(ref e) =>
+                format!("✘ Nothing to unwrap!\n✘ {:?}", e),
             AppError::BitcoinAddressError(ref e) =>
                 format!("✘ Bitcoin Address Error!\n✘ {}", e),
             /*
-            AppError::NoneError(ref e) =>
-                format!("✘ Nothing to unwrap!\n✘ {:?}", e),
             AppError::SetLoggerError(ref e) =>
                 format!("✘ Error setting up logger!\n✘ {}", e),
             */
@@ -98,17 +101,22 @@ impl From<bitcoin::util::address::Error> for AppError {
         AppError::BitcoinAddressError(e)
     }
 }
-/*
- *
-impl Error for AppError {
-    fn description(&self) -> &str {
-        "\n✘ Program Error!\n"
+
+impl From<std::time::SystemTimeError> for AppError {
+    fn from(e: std::time::SystemTimeError) -> AppError {
+        AppError::SystemTimeError(e)
     }
 }
 
 impl From<std::option::NoneError> for AppError {
     fn from(e: std::option::NoneError) -> AppError {
         AppError::NoneError(e)
+    }
+}
+/*
+impl Error for AppError {
+    fn description(&self) -> &str {
+        "\n✘ Program Error!\n"
     }
 }
 

@@ -94,7 +94,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "btc-tx-maker"
+name = "btcoff"
 version = "0.1.0"
 dependencies = [
  "bitcoin 0.21.0 (registry+https://github.com/rust-lang/crates.io-index)",

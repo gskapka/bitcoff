@@ -30,17 +30,31 @@ fn parse_utxo_list_json_string(
     }
 }
 
-pub fn get_utxos_info_and_add_to_state(state: State) -> Result<State> {
-    info!("✔ Getting UTXOs info and adding to state...");
-    get_utxo_info_json_string(
-        &state.get_btc_address()?,
-        &state.api_endpoint,
-    )
+fn get_and_parse_utxos_and_add_to_state(
+    address: &String,
+    state: State,
+) -> Result<State> {
+    get_utxo_info_json_string(address, &state.api_endpoint)
         .and_then(parse_utxo_list_json_string)
         .and_then(|utxos_info| {
             info!("✔ {} UTXO(s) in list", utxos_info.len());
             state.add_utxos_info(utxos_info)
         })
+}
+
+pub fn get_utxos_info_and_add_to_state(state: State) -> Result<State> {
+    info!("✔ Getting UTXOs info and adding to state...");
+    get_and_parse_utxos_and_add_to_state(&state.get_btc_address()?, state)
+}
+
+pub fn get_utxos_info_for_address_in_cli_args_and_add_to_state(
+    state: State
+) -> Result<State> {
+    info!("✔ Getting UTXOs info for address in CLI args and adding to state...");
+    get_and_parse_utxos_and_add_to_state(
+        &state.cli_args.arg_btcAddress.clone(), 
+        state
+    )
 }
 
 #[cfg(test)]

@@ -52,10 +52,12 @@ pub fn create_signed_raw_btc_tx_for_n_input_n_outputs(
         },
         sats_per_byte
     );
-
     let utxo_total = get_total_value_of_utxos_and_values(&utxos_and_values);
-
-    match total_to_spend > utxo_total + fee {
+    info!("✔ UTXO(s) total:  {}", utxo_total);
+    info!("✔ Outgoing total: {}", total_to_spend);
+    info!("✔ Change amount:  {}", utxo_total - (total_to_spend + fee));
+    info!("✔ Tx fee:         {}", fee);
+    match total_to_spend + fee > utxo_total {
         true => return Err(AppError::Custom(
             UTXO_VALUE_TOO_LOW_ERROR.to_string()
         )),

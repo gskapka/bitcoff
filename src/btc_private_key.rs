@@ -1,7 +1,10 @@
 use std::fmt;
 use bitcoin::{
     util::{
-        key::PrivateKey,
+        key::{
+            PrivateKey,
+            PublicKey as BtcPublicKey,
+        },
         address::Address as BtcAddress,
     },
     network::constants::Network,
@@ -85,6 +88,10 @@ impl BtcPrivateKey {
             &Secp256k1::new(),
             &self.0.key
         )
+    }
+
+    pub fn to_btc_public_key(&self) -> Result<BtcPublicKey> {
+        Ok(BtcPublicKey::from_slice(&self.to_public_key_slice())?)
     }
 
     pub fn to_public_key_slice(&self) -> [u8; 33] {

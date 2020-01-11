@@ -11,7 +11,10 @@ A maker of BTC transactions!
 ❍ Usage ❍
 
 Usage:  btcoff --help
+        btcoff makePBTCUtxoTx (<ethAddress> <ethAddressNonce>)... (<to> <amount>)... (--utxoFile=<path> | <utxos>) [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
+        btcoff getPBTCDepositAddress <recipient> <ethAddress> [--nonce=<uint>] [--keyfile=<path>] [--network=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff getUtxos [--keyfile=<path>] [--network=<string>] [--outputPath=<path>] [--logLevel=<level>]
+        btcoff getUtxosForAddress <btcAddress> [--network=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff makeOnlineTx (<to> <amount>)... [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff makeOfflineTx (<to> <amount>)... (--utxoFile=<path> | <utxos>) [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff makeOnlineOpReturnTx (<to> <amount>)... <data> [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
@@ -19,10 +22,32 @@ Usage:  btcoff --help
 
 Commands:
 
+    makePBTCUtxoTx        ❍ Make a BTC transaction from a/some pBTC UTXO(s). 
+                            UTXOs supplied must be in the following JSON format: 
+                            [
+                                {
+                                    utxo_hex: <0x...>,
+                                    utxo_value: <value-in-Satoshis>,
+                                },...
+                            ]
+
+    getPBTCDepositAddress ❍ Generate a BTC deposit address for a given ETH 
+                            address for the Provable pBTC.
+
     getUtxos              ❍ *Needs internet connection!* Makes API call to get 
                             all UTXOs associated with address derived from the
                             encrypted private key. UTXOs are presented in the
-                            following JSON format: 
+                            following JSON format:
+                            [
+                                {
+                                    utxo_hex: <0x...>,
+                                    utxo_value: <value-in-Satoshis>,
+                                },...
+                            ]
+
+    getUtxosForAddress    ❍ *Needs internet connection!* Makes API call to get 
+                            all UTXOs associated with supplied BTC address 
+                            UTXOs are presented in the following JSON format:
                             [
                                 {
                                     utxo_hex: <0x...>,
@@ -72,6 +97,15 @@ Commands:
 
     <data>                ❍ The hex data for the `OP_RETURN` output.
 
+    <btcAddress>          ❍ A bitcoin address.
+
+    <ethAddress>          ❍ An ethereum address, in hex format.
+
+    <ethAddressNonce>     ❍ The nonce used in combination with the ETH address
+                            when the pBTC desposit address was generated.
+
+    <recipient>           ❍ The BTC recipient address.
+
     <utxos>               ❍ The UTXOs required for a BTC transaction, as a 
                             valid JSON string in the form:
                             [
@@ -100,6 +134,10 @@ Options:
     --keyfile=<path>     ❍ Path to GPG-encrypted BTC private key in wallet 
                            import format (`WIF`).
                            [default: ./encrypted-btc-private-key.gpg]
+
+    --nonce=<uint>       ❍ A nonce to be combined with the ETH address before
+                           hashing. A nonce of '0' will use a unix timestamp 
+                           instead. [default: 0]
 
     --change=<string>    ❍ Address to send any change to. Defaults to address 
                            of the private key used for the transaction.

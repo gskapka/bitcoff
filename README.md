@@ -1,6 +1,6 @@
 # :fire: An Offline (|| Online!) BTC Transaction Maker
 
-A simple Rust CLI for making BTC transactions given a __`UTXO`__ to spend. Can be run in on- or offline modes depending on your requirements. Offline mode(s) makes zero API calls and thus can happily be run on an air-gapped machine.
+A simple Rust CLI for creating on- & offline BTC transactions given a __`UTXO`__ to spend. Offline mode(s) makes zero API calls and thus can happily be run on an air-gapped machine.
 
 &nbsp;
 

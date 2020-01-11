@@ -1,5 +1,5 @@
 [package]
-name = "btc-tx-maker"
+name = "btcoff"
 version = "0.1.0"
 authors = ["Greg Kapka <greg@kapka.co.uk>"]
 edition = "2018"

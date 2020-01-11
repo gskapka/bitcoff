@@ -13,7 +13,7 @@ use crate::{
 };
 
 pub fn make_online_transaction(cli_args: CliArgs) -> Result<String> {
-    info!("✔ Making online  transaction...");
+    info!("✔ Making online transaction...");
     State::init_from_cli_args(cli_args.clone())
         .and_then(get_btc_private_key_and_add_to_state)
         .and_then(get_utxos_info_and_add_to_state)
@@ -22,5 +22,4 @@ pub fn make_online_transaction(cli_args: CliArgs) -> Result<String> {
         .and_then(create_tx_and_add_to_state)
         .and_then(serialize_tx_in_state)
         .and_then(|output| maybe_save_output(output, &cli_args.flag_outputPath))
-
 }
