@@ -1,5 +1,5 @@
 #!/bin/bash
-../target/release/btc-tx-maker \
+../bin/btcoff \
 makeOnlineTx \
 2NGCmjxtAYgYytghra759EywJ33pcqH9RZ1 \
 6000 \

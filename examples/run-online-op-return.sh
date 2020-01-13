@@ -1,5 +1,6 @@
 #!/bin/bash
-../target/release/btc-tx-maker makeOnlineOpReturnTx \
+../bin/btcoff \
+makeOnlineOpReturnTx \
 mudzxCq9aCQ4Una9MmayvJVCF1Tj9fypiM \
 1337 \
 c0ffee \

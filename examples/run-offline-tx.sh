@@ -1,5 +1,5 @@
 #!/bin/bash
-../target/release/btc-tx-maker \
+../bin/btcoff \
 makeOfflineTx \
 mudzxCq9aCQ4Una9MmayvJVCF1Tj9fypiM \
 666 \
