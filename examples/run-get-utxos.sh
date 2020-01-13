@@ -1,5 +1,5 @@
 #!/bin/bash
-../target/release/btc-tx-maker \
+../bin/btcoff \
 getUtxos \
 --network=Testnet \
 --outputPath="./get-utxos-output" \
