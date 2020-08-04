@@ -1,4 +1,5 @@
 *.sw*
+*.gpg
 *.env
 rsync*
 notes

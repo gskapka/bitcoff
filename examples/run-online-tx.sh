@@ -1,11 +1,11 @@
 #!/bin/bash
 ../bin/btcoff \
 makeOnlineTx \
-2NGCmjxtAYgYytghra759EywJ33pcqH9RZ1 \
-6000 \
---network="testnet" \
+2Mygt1EwSJHbX8L4qLKzfTc4ZnykDzxFyAa \
+5001 \
+--network="Testnet" \
 --change=moBSQbHn7N9BC9pdtAMnA7GBiALzNMQJyE \
---fee=23 \
+--fee=20 \
 --outputPath="./make-online-tx-output" \
---keyfile="./encrypted-btc-private-key.gpg" \
+--keyfile="encrypted-btc-private-key.gpg" \
 --logLevel="debug"
