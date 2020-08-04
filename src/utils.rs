@@ -1,4 +1,3 @@
-use reqwest;
 use std::str::FromStr;
 use secp256k1::SecretKey;
 use rand::{
@@ -9,9 +8,10 @@ use crate::{
     state::State,
     errors::AppError,
     types::{
+        Byte,
         Bytes,
         Result,
-        BtcUtxosAndValues,
+        BtcUtxoAndValue,
     },
     base58::{
         from as from_base58,
@@ -38,7 +38,7 @@ use bitcoin::{
 pub fn get_change_address_from_cli_args_in_state(state: &State) -> Result<String> {
     info!("✔ Getting change-address from CLI args in state...");
     match &state.cli_args.flag_change[..] {
-        "signer" => Ok(state.get_btc_address()?.clone()),
+        "signer" => Ok(state.get_btc_address()?),
         _ => Ok(state.cli_args.flag_change.clone())
     }
 }
@@ -100,28 +100,23 @@ pub fn serialize_btc_utxo(btc_utxo: &BtcUtxo) -> Bytes {
     btc_serialize(btc_utxo)
 }
 
-pub fn deserialize_btc_utxo(bytes: &Bytes) -> Result<BtcUtxo> {
+pub fn deserialize_btc_utxo(bytes: &[Byte]) -> Result<BtcUtxo> {
     Ok(btc_deserialize(bytes)?)
 }
 
-pub fn get_total_value_of_utxos_and_values(utxos_and_values: &BtcUtxosAndValues) -> u64 {
+pub fn get_total_value_of_utxos_and_values(utxos_and_values: &[BtcUtxoAndValue]) -> u64 {
    utxos_and_values.iter().map(|utxo_and_value| utxo_and_value.value).sum()
 }
 
-pub fn get_op_return_output(op_return_bytes: &Bytes) -> Result<BtcTxOut> {
+pub fn get_op_return_output(op_return_bytes: &[Byte]) -> Result<BtcTxOut> {
     Ok(BtcTxOut { value: 0, script_pubkey: get_op_return_script(op_return_bytes)?  })
 }
 
-fn get_op_return_script(op_return_bytes: &Bytes) -> Result<BtcScript> {
-    Ok(
-        BtcScriptBuilder::new()
-            .push_opcode(opcodes::all::OP_RETURN)
-            .push_slice(op_return_bytes)
-            .into_script()
-    )
+fn get_op_return_script(op_return_bytes: &[Byte]) -> Result<BtcScript> {
+    Ok(BtcScriptBuilder::new().push_opcode(opcodes::all::OP_RETURN).push_slice(op_return_bytes).into_script())
 }
 
-pub fn bytes_to_utf8_str(bytes: &Bytes) -> Result<String> {
+pub fn bytes_to_utf8_str(bytes: &[Byte]) -> Result<String> {
     Ok(std::str::from_utf8(bytes)?.to_string())
 }
 
@@ -129,11 +124,11 @@ pub fn strip_new_lines_from_str(string: String) -> String {
     string.replace("\n", "")
 }
 
-pub fn convert_bytes_to_string_with_no_new_lines(bytes: &Bytes) -> Result<String> {
+pub fn convert_bytes_to_string_with_no_new_lines(bytes: &[Byte]) -> Result<String> {
     bytes_to_utf8_str(bytes).map(strip_new_lines_from_str)
 }
 
-pub fn file_exists(path: &String) -> bool {
+pub fn file_exists(path: &str) -> bool {
     std::path::Path::new(path).is_file()
 }
 

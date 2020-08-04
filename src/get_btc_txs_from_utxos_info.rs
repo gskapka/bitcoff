@@ -7,12 +7,12 @@ use crate::{
     utils::make_api_call,
     types::{
         Result,
-        UtxosInfo,
+        UtxoInfo,
         BtcTransactions,
     },
 };
 
-pub fn convert_hex_tx_to_btc_tx(hex: &String) -> Result<BtcTransaction> {
+pub fn convert_hex_tx_to_btc_tx(hex: &str) -> Result<BtcTransaction> {
     info!("✔ Converting hex to BTC tx...");
     Ok(btc_deserialize::<BtcTransaction>(&hex::decode(hex)?)?)
 }
@@ -21,30 +21,18 @@ fn convert_hex_txs_to_btc_txs(hex_txs: Vec<String>) -> Result<BtcTransactions> {
     info!("✔ Converting hex txs to BTC txs...");
     hex_txs
         .iter()
-        .map(convert_hex_tx_to_btc_tx)
-        .collect::<Result<BtcTransactions>>()
+        .map(|hex| convert_hex_tx_to_btc_tx(&hex))
+        .collect()
 }
 
-fn get_hex_tx_from_tx_id(
-    tx_id: &String,
-    api_endpoint: &String,
-) -> Result<String> {
+fn get_hex_tx_from_tx_id(tx_id: &str, api_endpoint: &str) -> Result<String> {
     info!("✔ Getting BTC tx in hex format for tx id: {}", tx_id);
-    make_api_call(
-        &format!("{}tx/{}/hex", api_endpoint, tx_id)[..],
-        &"✘ Error getting BTC tx in hex: {:?}",
-    )
+    make_api_call(&format!("{}tx/{}/hex", api_endpoint, tx_id)[..], &"✘ Error getting BTC tx in hex: {:?}")
 }
 
-fn get_hex_txs_from_utxos_info(
-    utxos_info: &UtxosInfo,
-    api_endpoint: &String,
-) -> Result<Vec<String>> {
+fn get_hex_txs_from_utxos_info(utxos_info: &[UtxoInfo], api_endpoint: &str) -> Result<Vec<String>> {
     info!("✔ Getting BTC txs in hex format...");
-    utxos_info
-        .iter()
-        .map(|utxo_info| get_hex_tx_from_tx_id(&utxo_info.txid, api_endpoint))
-        .collect::<Result<Vec<String>>>()
+    utxos_info.iter().map(|utxo_info| get_hex_tx_from_tx_id(&utxo_info.txid, api_endpoint)).collect()
 }
 
 pub fn get_txs_from_utxo_infos_and_put_in_state(

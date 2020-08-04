@@ -1,4 +1,3 @@
-use log;
 use simplelog::*;
 use log::LevelFilter;
 use crate::{
@@ -21,7 +20,7 @@ pub fn maybe_initialize_logger_and_return_cli_args(
                 "trace" => Ok(LevelFilter::Trace),
                 _ => Err(AppError::Custom(
                     format!(
-                        "✘ Not a valid log level: '{}'", 
+                        "✘ Not a valid log level: '{}'",
                         cli_args.flag_logLevel
                     )
                 ))

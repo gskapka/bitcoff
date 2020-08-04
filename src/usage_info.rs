@@ -1,4 +1,4 @@
-pub static USAGE_INFO: &'static str = "
+pub const USAGE_INFO: &str = "
 ❍ BTC Transaction Maker ❍
 
     Copyright Greg Kapka 2019
@@ -22,8 +22,8 @@ Usage:  btcoff --help
 
 Commands:
 
-    makePBTCUtxoTx        ❍ Make a BTC transaction from a/some pBTC UTXO(s). 
-                            UTXOs supplied must be in the following JSON format: 
+    makePBTCUtxoTx        ❍ Make a BTC transaction from a/some pBTC UTXO(s).
+                            UTXOs supplied must be in the following JSON format:
                             [
                                 {
                                     utxo_hex: <0x...>,
@@ -31,10 +31,10 @@ Commands:
                                 },...
                             ]
 
-    getPBTCDepositAddress ❍ Generate a BTC deposit address for a given ETH 
+    getPBTCDepositAddress ❍ Generate a BTC deposit address for a given ETH
                             address for the Provable pBTC.
 
-    getUtxos              ❍ *Needs internet connection!* Makes API call to get 
+    getUtxos              ❍ *Needs internet connection!* Makes API call to get
                             all UTXOs associated with address derived from the
                             encrypted private key. UTXOs are presented in the
                             following JSON format:
@@ -45,8 +45,8 @@ Commands:
                                 },...
                             ]
 
-    getUtxosForAddress    ❍ *Needs internet connection!* Makes API call to get 
-                            all UTXOs associated with supplied BTC address 
+    getUtxosForAddress    ❍ *Needs internet connection!* Makes API call to get
+                            all UTXOs associated with supplied BTC address
                             UTXOs are presented in the following JSON format:
                             [
                                 {
@@ -55,13 +55,13 @@ Commands:
                                 },...
                             ]
 
-    makeOnlineTx          ❍ Create a simple BTC p2pkh transaction to one or more 
-                            addresses. This online version will grab the UTXO 
+    makeOnlineTx          ❍ Create a simple BTC p2pkh transaction to one or more
+                            addresses. This online version will grab the UTXO
                             set for the private key you provide via an API call.
 
-    makeOfflineTx          ❍ Create a simple BTC transaction to one or more 
-                            addresses. In this offline version, the UTXOs must 
-                            be passed in via as either a JSON string, or from a 
+    makeOfflineTx          ❍ Create a simple BTC transaction to one or more
+                            addresses. In this offline version, the UTXOs must
+                            be passed in via as either a JSON string, or from a
                             file, both of which must use the JSON format:
                             [
                                 {
@@ -70,19 +70,19 @@ Commands:
                                 },...
                             ]
 
-    makeOnlineOpReturnTx  ❍ Create an `OP_RETURN` transaction, pay the `to` 
-                            address via a `p2pkh` transaction and where the 
+    makeOnlineOpReturnTx  ❍ Create an `OP_RETURN` transaction, pay the `to`
+                            address via a `p2pkh` transaction and where the
                             `OP_RETURN` output contains the <data> supplied. In
                             this online version, available UTXOs for the address
                             of the private-key supplied are pulled from a block
                             explorer.
 
-    makeOfflineOpReturnTx ❍ Create an `OP_RETURN` transaction, pay the `to` 
-                            address via a `p2pkh` transaction and where the 
+    makeOfflineOpReturnTx ❍ Create an `OP_RETURN` transaction, pay the `to`
+                            address via a `p2pkh` transaction and where the
                             `OP_RETURN` output contains the <data> supplied. In
-                            this offline version, the UTXOs required must be 
-                            passed in via as either a JSON string, or from a 
-                            file, both of which must use the same JSON format as 
+                            this offline version, the UTXOs required must be
+                            passed in via as either a JSON string, or from a
+                            file, both of which must use the same JSON format as
                             the above `getUtxos` command returns:
                             [
                                 {
@@ -106,7 +106,7 @@ Commands:
 
     <recipient>           ❍ The BTC recipient address.
 
-    <utxos>               ❍ The UTXOs required for a BTC transaction, as a 
+    <utxos>               ❍ The UTXOs required for a BTC transaction, as a
                             valid JSON string in the form:
                             [
                                 {
@@ -131,15 +131,15 @@ Options:
                            one of: `none`, `info`, `debug`, `trace` or `error`.
                            [default: info]
 
-    --keyfile=<path>     ❍ Path to GPG-encrypted BTC private key in wallet 
+    --keyfile=<path>     ❍ Path to GPG-encrypted BTC private key in wallet
                            import format (`WIF`).
                            [default: ./encrypted-btc-private-key.gpg]
 
     --nonce=<uint>       ❍ A nonce to be combined with the ETH address before
-                           hashing. A nonce of '0' will use a unix timestamp 
+                           hashing. A nonce of '0' will use a unix timestamp
                            instead. [default: 0]
 
-    --change=<string>    ❍ Address to send any change to. Defaults to address 
+    -change=<string>    ❍ Address to send any change to. Defaults to address
                            of the private key used for the transaction.
                            [default: signer]
 

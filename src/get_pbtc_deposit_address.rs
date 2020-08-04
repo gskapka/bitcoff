@@ -17,6 +17,7 @@ use crate::{
     base58::from as from_base58,
     get_btc_private_key::get_btc_private_key_and_add_to_state,
     types::{
+        Byte,
         Bytes,
         Result,
     },
@@ -27,7 +28,7 @@ use crate::{
     },
 };
 
-fn convert_eth_address_to_bytes(eth_address: &String) -> Result<Bytes> {
+fn convert_eth_address_to_bytes(eth_address: &str) -> Result<Bytes> {
     Ok(hex::decode(&eth_address[..].replace("0x", ""))?)
 }
 
@@ -37,9 +38,10 @@ pub fn get_eth_address_from_cli_args_and_put_in_state(state: State) -> Result<St
 }
 
 
-pub fn get_eth_address_and_nonce_hash(eth_address: &Bytes, nonce: &u64) -> Result<sha256d::Hash> {
+pub fn get_eth_address_and_nonce_hash(eth_address: &[Byte], nonce: &u64) -> Result<sha256d::Hash> {
     info!("✔ Getting ETH address & nonce hash from ETH address: 0x{} & nonce: {}", hex::encode(eth_address), nonce);
-    let mut vec = eth_address.clone();
+    let mut vec = vec![];
+    vec.append(&mut eth_address.to_vec());
     vec.append(&mut nonce.to_le_bytes().to_vec());
     Ok(sha256d::Hash::hash(&vec))
 }

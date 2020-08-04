@@ -1,7 +1,7 @@
 use docopt::Docopt;
 use bitcoin::network::constants::Network as BtcNetwork;
 use std::time::{
-    SystemTime, 
+    SystemTime,
     UNIX_EPOCH,
 };
 use crate::{
@@ -24,7 +24,7 @@ pub struct CliArgs {
     pub arg_to: Vec<String>, // FIXME How to check is valid address?
     pub flag_change: String, // FIXME How to check is valid address?
     pub flag_network: String,
-    pub arg_amount: Vec<u64>, 
+    pub arg_amount: Vec<u64>,
     pub flag_keyfile: String,
     pub flag_logLevel: String,
     pub arg_recipient: String,
@@ -37,26 +37,19 @@ pub struct CliArgs {
     pub arg_utxo_indices: Vec<u32>,
     pub arg_ethAddress: Vec<String>,
     pub cmd_getUtxosForAddress: bool,
-    pub arg_ethAddressNonce: Vec<u64>, 
-    pub flag_utxoFile: Option<String>, 
+    pub arg_ethAddressNonce: Vec<u64>,
+    pub flag_utxoFile: Option<String>,
     pub cmd_makeOnlineOpReturnTx: bool,
     pub cmd_makeOfflineOpReturnTx: bool,
     pub cmd_getPBTCDepositAddress: bool,
     pub flag_outputPath: Option<String>,
 }
 
-pub fn get_addresses_and_amounts_from_cli_args(
-    addresses: &Vec<String>,
-    amounts: &Vec<u64>,
-) -> BtcAddressesAndAmounts {
-    addresses
-        .iter()
-        .enumerate()
-        .map(|(i, address)| (address.clone(), amounts[i]))
-        .collect::<BtcAddressesAndAmounts>()
+pub fn get_addresses_and_amounts_from_cli_args(addresses: &[String], amounts: &[u64]) -> BtcAddressesAndAmounts {
+    addresses.iter().enumerate().map(|(i, address)| (address.clone(), amounts[i])).collect()
 }
 
-pub fn get_network_from_cli_arg(network_cli_arg: &String) -> BtcNetwork {
+pub fn get_network_from_cli_arg(network_cli_arg: &str) -> BtcNetwork {
     info!("✔ Getting network from cli-arg: '{}'", network_cli_arg);
     match &network_cli_arg[..] {
         "Testnet" | "testnet" => {
@@ -85,7 +78,7 @@ pub fn get_nonce_from_cli_arg(nonce_cli_arg: &u64) -> Result<u64> {
     }
 }
 
-pub fn get_api_endpoint_from_cli_args(network_cli_arg: &String) -> String {
+pub fn get_api_endpoint_from_cli_args(network_cli_arg: &str) -> String {
     info!("✔ Getting API endpoint...");
     let api_url = match &network_cli_arg[..] {
         "Testnet" | "testnet" => format!("{}testnet/api/", BLOCK_EXPLORER_URL),
@@ -96,7 +89,7 @@ pub fn get_api_endpoint_from_cli_args(network_cli_arg: &String) -> String {
 }
 
 pub fn get_cli_args() -> Result<CliArgs> {
-    match Docopt::new(USAGE_INFO) 
+    match Docopt::new(USAGE_INFO)
         .and_then(|d| d.deserialize()) {
             Ok(cli_args) => Ok(cli_args),
             Err(e) => Err(AppError::Custom(

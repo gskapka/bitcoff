@@ -1,4 +1,3 @@
-use hex;
 use std::fmt;
 
 #[derive(Debug)]
@@ -14,17 +13,12 @@ pub enum AppError {
     SystemTimeError(std::time::SystemTimeError),
     BitcoinError(bitcoin::consensus::encode::Error),
     BitcoinAddressError(bitcoin::util::address::Error),
-    /*
-    SetLoggerError(log::SetLoggerError),
-    ParseIntError(std::num::ParseIntError),
-    */
 }
 
 impl fmt::Display for AppError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let msg = match *self {
-            AppError::Custom(ref msg) =>
-                format!("{}", msg),
+            AppError::Custom(ref msg) => msg.to_string(),
             AppError::IOError(ref e) =>
                 format!("✘ I/O Error!\n✘ {}", e),
             AppError::HexError(ref e) =>
@@ -45,10 +39,6 @@ impl fmt::Display for AppError {
                 format!("✘ Nothing to unwrap!\n✘ {:?}", e),
             AppError::BitcoinAddressError(ref e) =>
                 format!("✘ Bitcoin Address Error!\n✘ {}", e),
-            /*
-            AppError::SetLoggerError(ref e) =>
-                format!("✘ Error setting up logger!\n✘ {}", e),
-            */
         };
         f.write_fmt(format_args!("{}", msg))
     }
@@ -113,17 +103,3 @@ impl From<std::option::NoneError> for AppError {
         AppError::NoneError(e)
     }
 }
-/*
-impl Error for AppError {
-    fn description(&self) -> &str {
-        "\n✘ Program Error!\n"
-    }
-}
-
-impl From<log::SetLoggerError> for AppError {
-    fn from(e: log::SetLoggerError) -> AppError {
-        AppError::SetLoggerError(e)
-    }
-}
-
-*/

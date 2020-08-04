@@ -11,7 +11,8 @@ use bitcoin::blockdata::transaction::{
     Transaction as BtcTransaction,
 };
 
-pub type Bytes = Vec<u8>;
+pub type Byte = u8;
+pub type Bytes = Vec<Byte>;
 pub type UtxosInfo = Vec<UtxoInfo>;
 pub type BtcTransactions = Vec<BtcTransaction>;
 pub type Result<T> = result::Result<T, AppError>;

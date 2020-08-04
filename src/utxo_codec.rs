@@ -1,4 +1,3 @@
-use serde_json;
 use crate::{
     state::State,
     types::{
@@ -10,11 +9,8 @@ use crate::{
     },
 };
 
-fn convert_utxo_and_values_to_jsons(utxos: &BtcUtxosAndValues) -> Vec<BtcUtxoAndValueJson> {
-    utxos
-        .iter()
-        .map(|utxo| BtcUtxoAndValueJson::from_utxo_and_value(utxo))
-        .collect::<Vec<BtcUtxoAndValueJson>>()
+fn convert_utxo_and_values_to_jsons(utxos: &[BtcUtxoAndValue]) -> Vec<BtcUtxoAndValueJson> {
+    utxos.iter().map(|utxo| BtcUtxoAndValueJson::from_utxo_and_value(utxo)).collect()
 }
 
 fn convert_utxos_json_string_to_utxos_jsons(utxo_json_string: &str) -> Result<BtcUtxoAndValueJsons> {

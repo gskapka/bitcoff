@@ -10,7 +10,7 @@ use crate::{
     },
 };
 
-fn check_keyfile_exists(keyfile_path: &String) -> Result<()> {
+fn check_keyfile_exists(keyfile_path: &str) -> Result<()> {
     info!("✔ Checking BTC private keyfile exists...");
     match file_exists(&keyfile_path) {
         false =>
@@ -28,7 +28,7 @@ fn check_keyfile_exists(keyfile_path: &String) -> Result<()> {
     }
 }
 
-fn maybe_get_btc_private_key_wif_string(keyfile_path: &String) -> Result<String> {
+fn maybe_get_btc_private_key_wif_string(keyfile_path: &str) -> Result<String> {
     info!("✔ Decrypting private key...");
     let output = Command::new("gpg").arg("-d").arg(keyfile_path).output()?;
     match output.stdout.len() {

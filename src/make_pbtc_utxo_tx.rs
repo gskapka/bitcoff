@@ -71,10 +71,10 @@ fn make_pbtc_tx_and_put_in_state(
 ) -> Result<State> {
     info!("✔ Making pBTC tx and putting in state...");
     create_signed_raw_btc_tx_for_n_input_n_outputs(
-        state.cli_args.flag_fee.clone(),
+        state.cli_args.flag_fee,
         state.addresses_and_amounts.clone(),
         &get_change_address_from_cli_args_in_state(&state)?,
-        state.get_btc_private_key()?.clone(),
+        *state.get_btc_private_key()?,
         state.get_btc_utxos_and_values()?.clone(),
         None,
         state.get_btc_script()?,
@@ -84,7 +84,7 @@ fn make_pbtc_tx_and_put_in_state(
 
 pub fn make_pbtc_utxo_tx(cli_args: CliArgs) -> Result<String> {
     info!("✔ Spending pBTC UTXO(s)...");
-    State::init_from_cli_args(cli_args.clone())
+    State::init_from_cli_args(cli_args)
         .and_then(get_btc_private_key_and_add_to_state)
         .and_then(get_utxo_json_string_from_cli_args_and_add_to_state)
         .and_then(get_utxos_from_utxo_json_string_and_add_to_state)
@@ -98,9 +98,7 @@ pub fn make_pbtc_utxo_tx(cli_args: CliArgs) -> Result<String> {
 pub const VERSION: u32 = 1;
 pub const LOCK_TIME: u32 = 0;
 pub const SIGN_ALL_HASH_TYPE: u8 = 1;
-
-pub static UTXO_VALUE_TOO_LOW_ERROR: &'static str =
-    "✘ Not enough UTXO value to make transaction!";
+pub const UTXO_VALUE_TOO_LOW_ERROR: &str = "✘ Not enough UTXO value to make transaction!";
 
 pub fn create_signed_raw_btc_tx_for_n_input_n_outputs(
     sats_per_byte: usize,
