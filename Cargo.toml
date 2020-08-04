@@ -1,6 +1,6 @@
 [package]
 name = "btcoff"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Greg Kapka <greg@kapka.co.uk>"]
 edition = "2018"
 

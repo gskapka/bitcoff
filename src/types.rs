@@ -6,15 +6,9 @@ use crate::{
         deserialize_btc_utxo,
     },
 };
-use bitcoin::{
-    util::address::Address as BtcAddress,
-    blockdata::{
-        block::Block as BtcBlock,
-        transaction::{
-            TxIn as BtcUtxo,
-            Transaction as BtcTransaction,
-        },
-    },
+use bitcoin::blockdata::transaction::{
+    TxIn as BtcUtxo,
+    Transaction as BtcTransaction,
 };
 
 pub type Bytes = Vec<u8>;
@@ -43,7 +37,7 @@ impl BtcUtxoAndValueJson { // TODO test!
         utxo_and_value: &BtcUtxoAndValue
     ) -> Self {
         BtcUtxoAndValueJson {
-            utxo_value: utxo_and_value.value, 
+            utxo_value: utxo_and_value.value,
             utxo_hex: hex::encode(utxo_and_value.serialized_utxo.clone()),
         }
     }

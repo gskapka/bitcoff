@@ -1,11 +1,9 @@
-use reqwest;
 use bitcoin::{
     consensus::encode::deserialize as btc_deserialize,
     blockdata::transaction::Transaction as BtcTransaction,
 };
 use crate::{
     state::State,
-    errors::AppError,
     utils::make_api_call,
     types::{
         Result,

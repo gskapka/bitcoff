@@ -1,10 +1,7 @@
 use crate::{
     state::State,
     types::Result,
-    utils::{
-        get_op_return_output,
-        get_change_address_from_cli_args_in_state,
-    },
+    utils::get_change_address_from_cli_args_in_state,
     btc_transaction::create_signed_raw_btc_tx_for_n_input_n_outputs,
 };
 

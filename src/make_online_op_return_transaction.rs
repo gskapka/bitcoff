@@ -1,4 +1,3 @@
-use bitcoin::consensus::encode::serialize as btc_serialize;
 use crate::{
     state::State,
     types::Result,
