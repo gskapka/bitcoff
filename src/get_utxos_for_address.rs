@@ -4,8 +4,6 @@ use crate::{
     get_cli_args::CliArgs,
     save_output::maybe_save_output,
     utxo_codec::get_utxo_json_string_from_utxos_in_state,
-    get_btc_private_key::get_btc_private_key_and_add_to_state,
-    create_op_return_tx::create_op_return_tx_and_add_to_state,
     extract_utxos_from_utxo_info::extract_utxos_and_add_to_state,
     get_btc_txs_from_utxos_info::get_txs_from_utxo_infos_and_put_in_state,
     get_utxos_info::get_utxos_info_for_address_in_cli_args_and_add_to_state,

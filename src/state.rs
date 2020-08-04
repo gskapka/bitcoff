@@ -1,9 +1,6 @@
 use bitcoin::{
+    hashes::sha256d,
     network::constants::Network as BtcNetwork,
-    hashes::{
-        Hash,
-        sha256d,
-    },
     blockdata::{
         script::Script as BtcScript,
         transaction::Transaction as BtcTransaction,
@@ -40,7 +37,7 @@ pub struct State {
     pub btc_txs: Option<BtcTransactions>,
     pub btc_private_key: Option<BtcPrivateKey>,
     pub addresses_and_amounts: BtcAddressesAndAmounts,
-    pub btc_utxos_and_values: Option<BtcUtxosAndValues>, 
+    pub btc_utxos_and_values: Option<BtcUtxosAndValues>,
     pub eth_address_and_nonce_hash: Option<sha256d::Hash>,
 }
 
@@ -58,16 +55,6 @@ impl State {
     ) -> Result<State> {
         Ok(
             State {
-                network: 
-                    get_network_from_cli_arg(&cli_args.flag_network),
-                api_endpoint:  
-                    get_api_endpoint_from_cli_args(&cli_args.flag_network),
-                addresses_and_amounts:
-                    get_addresses_and_amounts_from_cli_args(
-                        &cli_args.arg_to,
-                        &cli_args.arg_amount,
-                    ),
-                cli_args,
                 btc_tx: None,
                 btc_txs: None,
                 utxos_info: None,
@@ -77,11 +64,15 @@ impl State {
                 eth_address_bytes: None,
                 btc_utxos_and_values: None,
                 eth_address_and_nonce_hash: None,
+                network: get_network_from_cli_arg(&cli_args.flag_network),
+                api_endpoint: get_api_endpoint_from_cli_args(&cli_args.flag_network),
+                addresses_and_amounts: get_addresses_and_amounts_from_cli_args(&cli_args.arg_to, &cli_args.arg_amount),
+                cli_args,
             }
         )
     }
 
-    pub fn add_btc_private_key( 
+    pub fn add_btc_private_key(
         mut self,
         btc_private_key: BtcPrivateKey,
     ) -> Result<State> {
@@ -96,7 +87,7 @@ impl State {
         }
     }
 
-    pub fn add_btc_script( 
+    pub fn add_btc_script(
         mut self,
         btc_script: BtcScript,
     ) -> Result<State> {
@@ -111,7 +102,7 @@ impl State {
         }
     }
 
-    pub fn add_eth_address_bytes( 
+    pub fn add_eth_address_bytes(
         mut self,
         eth_address_bytes: Bytes,
     ) -> Result<State> {
@@ -126,7 +117,7 @@ impl State {
         }
     }
 
-    pub fn add_eth_address_and_nonce_hash( 
+    pub fn add_eth_address_and_nonce_hash(
         mut self,
         eth_address_and_nonce_hash: sha256d::Hash,
     ) -> Result<State> {
@@ -154,7 +145,7 @@ impl State {
     }
 
     pub fn add_utxo_json_string(
-        mut self, 
+        mut self,
         utxo_json_string: String
     ) -> Result<State> {
         match self.utxo_json_string {
@@ -180,7 +171,7 @@ impl State {
         }
     }
 
-    pub fn add_btc_txs( 
+    pub fn add_btc_txs(
         mut self,
         btc_txs: BtcTransactions,
     ) -> Result<State> {
@@ -195,7 +186,7 @@ impl State {
         }
     }
 
-    pub fn add_btc_utxos_and_values( 
+    pub fn add_btc_utxos_and_values(
         mut self,
         btc_utxos_and_values: BtcUtxosAndValues,
     ) -> Result<State> {
@@ -210,7 +201,7 @@ impl State {
         }
     }
 
-    pub fn get_btc_utxos_and_values( 
+    pub fn get_btc_utxos_and_values(
         &self
     ) -> Result<&BtcUtxosAndValues> {
         match &self.btc_utxos_and_values {
@@ -221,7 +212,7 @@ impl State {
         }
     }
 
-    pub fn get_btc_txs( 
+    pub fn get_btc_txs(
         &self
     ) -> Result<&BtcTransactions> {
         match &self.btc_txs {

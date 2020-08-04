@@ -11,7 +11,7 @@ pub fn get_utxo_json_string_from_cli_args_and_add_to_state(
     match state.cli_args.arg_utxos.clone() {
         Some(utxo_json_string) => {
             info!("✔ UTXO json string passed in as argument...");
-            state.add_utxo_json_string(utxo_json_string.clone())
+            state.add_utxo_json_string(utxo_json_string)
         }
         None => {
             info!("✔ UTXO json string passed in as argument...");

@@ -1,4 +1,3 @@
-use bitcoin::consensus::encode::serialize as btc_serialize;
 use crate::{
     state::State,
     types::Result,
@@ -6,7 +5,6 @@ use crate::{
     utils::serialize_tx_in_state,
     save_output::maybe_save_output,
     create_tx::create_tx_and_add_to_state,
-    create_op_return_tx::create_op_return_tx_and_add_to_state,
     get_btc_private_key::get_btc_private_key_and_add_to_state,
     utxo_codec::get_utxos_from_utxo_json_string_and_add_to_state,
     get_utxo_json_string::get_utxo_json_string_from_cli_args_and_add_to_state,

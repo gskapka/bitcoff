@@ -1,4 +1,5 @@
 #![feature(try_trait)]
+#![allow(clippy::match_bool)]
 
 pub mod state;
 pub mod types;
@@ -57,19 +58,19 @@ fn main() -> Result<()> {
         .and_then(maybe_initialize_logger_and_return_cli_args)
         .and_then(|cli_args|
             match cli_args {
-                CliArgs {cmd_getUtxos: true, ..} => 
+                CliArgs {cmd_getUtxos: true, ..} =>
                     get_utxos(cli_args),
-                CliArgs {cmd_makeOnlineTx: true, ..} => 
+                CliArgs {cmd_makeOnlineTx: true, ..} =>
                     make_online_transaction(cli_args),
-                CliArgs {cmd_makeOfflineTx: true, ..} => 
+                CliArgs {cmd_makeOfflineTx: true, ..} =>
                     make_offline_transaction(cli_args),
                 CliArgs {cmd_makePBTCUtxoTx: true, ..} =>
                     make_pbtc_utxo_tx(cli_args),
                 CliArgs {cmd_getUtxosForAddress: true, ..} =>
                     get_utxos_for_address(cli_args),
-                CliArgs {cmd_makeOnlineOpReturnTx: true, ..} => 
+                CliArgs {cmd_makeOnlineOpReturnTx: true, ..} =>
                     make_online_op_return_transaction(cli_args),
-                CliArgs {cmd_makeOfflineOpReturnTx: true, ..} => 
+                CliArgs {cmd_makeOfflineOpReturnTx: true, ..} =>
                     make_offline_op_return_transaction(cli_args),
                 CliArgs {cmd_getPBTCDepositAddress: true, ..} =>
                     get_pbtc_deposit_address(cli_args),
