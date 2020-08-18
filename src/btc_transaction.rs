@@ -132,3 +132,34 @@ pub fn create_signed_raw_btc_tx_for_n_input_n_outputs(
         }
     )
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use bitcoin::consensus::encode::serialize as btc_serialize;
+    use crate::test_utils::{
+        get_sample_utxo,
+        get_sample_btc_private_key,
+    };
+
+    #[test]
+    fn should_create_tx_correctly() {
+        let expected_result = "01000000016e3fa15afcd9b579b7ed082e0ee8cfba1f27a6cf007cb7ca95b06ab0fda2880c020000006b483045022100d5dec195ae624af5708ca7834b9e052b93bcf935c92c19dcf1be39ce1aa60d31022019db89b0938e14c82f1f66ad8ab7377fe5895c78293df5b3a50ffa221fa04700012103d2a5e3b162eb580fe2ce023cd5e0dddbb6286923acde77e3e5468314dc9373f7ffffffff0289130000000000001976a9149ae6e42c56f1ea319cfc704ad50db0683015029b88ac333a0d00000000001976a91454102783c8640c5144d039cea53eb7dbb470081488ac00000000";
+        let sats_per_byte = 100;
+        let recipients_and_amounts = vec![("mudzxCq9aCQ4Una9MmayvJVCF1Tj9fypiM".to_string(), 5001)];
+        let remainder_btc_address = "moBSQbHn7N9BC9pdtAMnA7GBiALzNMQJyE";
+        let btc_private_key = get_sample_btc_private_key();
+        let utxos_and_values = BtcUtxosAndValues::from_vec(vec![get_sample_utxo()]);
+        let maybe_op_return_output = None;
+        let result = create_signed_raw_btc_tx_for_n_input_n_outputs(
+            sats_per_byte,
+            recipients_and_amounts,
+            remainder_btc_address,
+            btc_private_key,
+            &utxos_and_values,
+            maybe_op_return_output,
+        ).unwrap();
+        let result_hex = hex::encode(btc_serialize(&result));
+        assert_eq!(result_hex, expected_result);
+    }
+}
