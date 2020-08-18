@@ -1,5 +1,5 @@
 #!/bin/bash
-../bin/btcoff \
+../target/release/btcoff \
 makePBTCUtxoTx \
 0xfEDFe2616EB3661CB8FEd2782F5F0cC91D59DCaC \
 1337 \

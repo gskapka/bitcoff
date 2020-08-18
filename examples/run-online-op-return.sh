@@ -1,5 +1,5 @@
 #!/bin/bash
-../bin/btcoff \
+../target/release/btcoff \
 makeOnlineOpReturnTx \
 mrASurhPLXdgoGQqCJgySF7QafooGvJL7Y \
 4999 \

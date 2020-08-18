@@ -1,5 +1,5 @@
 #!/bin/bash
-../bin/btcoff \
+../target/release/btcoff \
 getUtxos \
 --network=Testnet \
 --outputPath="./get-utxos-output" \

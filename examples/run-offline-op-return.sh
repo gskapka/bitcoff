@@ -1,5 +1,5 @@
 #!/bin/bash
-../bin/btcoff \
+../target/release/btcoff \
 makeOfflineOpReturnTx \
 mudzxCq9aCQ4Una9MmayvJVCF1Tj9fypiM \
 1 \
