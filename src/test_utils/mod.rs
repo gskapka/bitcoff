@@ -13,8 +13,8 @@ pub const SAMPLE_TARGET_BTC_ADDRESS: &str = "moBSQbHn7N9BC9pdtAMnA7GBiALzNMQJyE"
 pub const SAMPLE_BTC_PRIVATE_KEY: &str = "cP2Dv4mx1DwJzN8iF6CCyPZmuS27bT9MV4Qmgb9h6cNQNq2Jgpmy";
 pub const SAMPLE_TESTNET_TX_ID: &str = "85f8faf4a3da404a833d0a21b1cea215da74a4b2c1ce8187cbf6379f42c02924";
 pub const SAMPLE_BTC_PUBLIC_KEY: &str = "03d2a5e3b162eb580fe2ce023cd5e0dddbb6286923acde77e3e5468314dc9373f7";
-pub const SAMPLE_UTXOS_JSON_STRING: &str = "[{\"utxo_value\":891168,\"utxo_hex\":\"6e3fa15afcd9b579b7ed082e0ee8cfba1f27a6cf007cb7ca95b06ab0fda2880c020000001976a91454102783c8640c5144d039cea53eb7dbb470081488acffffffff\"}]";
-pub const SAMPLE_UTXO_JSON_STRING: &str = "{\"utxo_value\":891168,\"utxo_hex\":\"6e3fa15afcd9b579b7ed082e0ee8cfba1f27a6cf007cb7ca95b06ab0fda2880c020000001976a91454102783c8640c5144d039cea53eb7dbb470081488acffffffff\"}";
+pub const SAMPLE_UTXOS_JSON_STRING: &str = "[{\"value\":891168,\"serialized_utxo\":\"6e3fa15afcd9b579b7ed082e0ee8cfba1f27a6cf007cb7ca95b06ab0fda2880c020000001976a91454102783c8640c5144d039cea53eb7dbb470081488acffffffff\"}]";
+pub const SAMPLE_UTXO_JSON_STRING: &str = "{\"value\":891168,\"serialized_utxo\":\"6e3fa15afcd9b579b7ed082e0ee8cfba1f27a6cf007cb7ca95b06ab0fda2880c020000001976a91454102783c8640c5144d039cea53eb7dbb470081488acffffffff\"}";
 
 pub fn get_sample_btc_private_key() -> BtcPrivateKey {
     BtcPrivateKey::from_wif(SAMPLE_BTC_PRIVATE_KEY).unwrap()

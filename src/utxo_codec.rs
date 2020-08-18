@@ -18,7 +18,7 @@ fn convert_utxos_json_string_to_utxos_jsons(utxo_json_string: &str) -> Result<Bt
 }
 
 fn convert_utxo_json_to_utxo(utxo_and_value_json: &BtcUtxoAndValueJson) -> Result<BtcUtxoAndValue> {
-    Ok(BtcUtxoAndValue::new_serialized(utxo_and_value_json.utxo_value, hex::decode(&utxo_and_value_json.utxo_hex)?))
+    Ok(BtcUtxoAndValue::new_serialized(utxo_and_value_json.value, hex::decode(&utxo_and_value_json.serialized_utxo)?))
 }
 
 fn convert_utxo_jsons_to_utxos(utxo_jsons: BtcUtxoAndValueJsons) -> Result<BtcUtxosAndValues> {

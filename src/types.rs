@@ -29,8 +29,8 @@ pub struct UtxoInfo {
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct BtcUtxoAndValueJson {
-    pub utxo_value: u64,
-    pub utxo_hex: String,
+    pub value: u64,
+    pub serialized_utxo: String,
 }
 
 impl BtcUtxoAndValueJson {
@@ -38,8 +38,8 @@ impl BtcUtxoAndValueJson {
         utxo_and_value: &BtcUtxoAndValue
     ) -> Self {
         BtcUtxoAndValueJson {
-            utxo_value: utxo_and_value.value,
-            utxo_hex: hex::encode(utxo_and_value.serialized_utxo.clone()),
+            value: utxo_and_value.value,
+            serialized_utxo: hex::encode(utxo_and_value.serialized_utxo.clone()),
         }
     }
 
@@ -71,8 +71,13 @@ impl BtcUtxoAndValue {
     }
 
     pub fn from_json(json: &str) -> Result<Self> {
-        BtcUtxoAndValueJson::from_json(json)
-            .and_then(|utxo_json| Ok(Self::new_serialized(utxo_json.utxo_value, hex::decode(&utxo_json.utxo_hex)?)))
+        #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+        pub struct IntermediateJson {
+            pub value: u64,
+            pub serialized_utxo: String,
+        };
+        let json: IntermediateJson = serde_json::from_str(json)?;
+        Ok(Self::new_serialized(json.value, hex::decode(&json.serialized_utxo)?))
     }
 }
 
