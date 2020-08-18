@@ -39,16 +39,16 @@ pub fn get_utxo_json_string_from_utxos_in_state(state: State) -> Result<String> 
 
 mod tests {
     use super::*;
-    use crate::test_utils::SAMPLE_UTXO_JSON_STRING;
+    use crate::test_utils::SAMPLE_UTXOS_JSON_STRING;
 
     fn get_sample_utxo_json() -> BtcUtxoAndValueJson {
-        convert_utxos_json_string_to_utxos_jsons(SAMPLE_UTXO_JSON_STRING).unwrap()[0].clone()
+        convert_utxos_json_string_to_utxos_jsons(SAMPLE_UTXOS_JSON_STRING).unwrap()[0].clone()
     }
 
     #[test]
     fn should_convert_utxo_json_string_to_utxos_and_values() {
         if let Err(e) = convert_utxos_json_string_to_utxos_jsons(
-            SAMPLE_UTXO_JSON_STRING
+            SAMPLE_UTXOS_JSON_STRING
         ) {
             panic!("Error converting utxo json string to utxo json: {}", e);
         }
