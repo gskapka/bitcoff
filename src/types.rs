@@ -33,7 +33,7 @@ pub struct BtcUtxoAndValueJson {
     pub utxo_hex: String,
 }
 
-impl BtcUtxoAndValueJson { // TODO test!
+impl BtcUtxoAndValueJson {
     pub fn from_utxo_and_value(
         utxo_and_value: &BtcUtxoAndValue
     ) -> Self {
@@ -41,6 +41,10 @@ impl BtcUtxoAndValueJson { // TODO test!
             utxo_value: utxo_and_value.value,
             utxo_hex: hex::encode(utxo_and_value.serialized_utxo.clone()),
         }
+    }
+
+    pub fn from_json(json: &str) -> Result<Self> {
+        Ok(serde_json::from_str(json)?)
     }
 }
 
@@ -64,5 +68,30 @@ impl BtcUtxoAndValue {
 
     pub fn get_utxo(&self) -> Result<BtcUtxo> {
         deserialize_btc_utxo(&self.serialized_utxo)
+    }
+
+    pub fn from_json(json: &str) -> Result<Self> {
+        BtcUtxoAndValueJson::from_json(json)
+            .and_then(|utxo_json| Ok(Self::new_serialized(utxo_json.utxo_value, hex::decode(&utxo_json.utxo_hex)?)))
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::test_utils::SAMPLE_UTXO_JSON_STRING;
+
+    #[test]
+    fn should_get_btc_utxo_and_value_json_from_json_string() {
+        if let Err(e) = BtcUtxoAndValueJson::from_json(SAMPLE_UTXO_JSON_STRING) {
+            panic!("Error getting `BtcUtxoAndValueJson` from json: {}", e);
+        }
+    }
+
+    #[test]
+    fn should_get_btc_utxo_and_value_from_json() {
+        if let Err(e) = BtcUtxoAndValue::from_json(SAMPLE_UTXO_JSON_STRING) {
+            panic!("Error getting `BtcUtxoAndValue` from json: {}", e);
+        }
     }
 }
