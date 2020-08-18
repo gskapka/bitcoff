@@ -1,4 +1,5 @@
 use std::result;
+use serde_json::json;
 use crate::{
     errors::AppError,
     utils::{
@@ -79,6 +80,13 @@ impl BtcUtxoAndValue {
         let json: IntermediateJson = serde_json::from_str(json)?;
         Ok(Self::new_serialized(json.value, hex::decode(&json.serialized_utxo)?))
     }
+
+    pub fn to_json(&self) -> String {
+        json!({
+            "value": self.value,
+            "serialized_utxo": hex::encode(&self.serialized_utxo),
+        }).to_string()
+    }
 }
 
 #[cfg(test)]
@@ -98,5 +106,13 @@ mod tests {
         if let Err(e) = BtcUtxoAndValue::from_json(SAMPLE_UTXO_JSON_STRING) {
             panic!("Error getting `BtcUtxoAndValue` from json: {}", e);
         }
+    }
+
+    #[test]
+    fn should_perform_serde_json_round_trip() {
+        let utxo = BtcUtxoAndValue::from_json(SAMPLE_UTXO_JSON_STRING).unwrap();
+        let json = utxo.to_json();
+        let result = BtcUtxoAndValue::from_json(&json).unwrap();
+        assert_eq!(result, utxo);
     }
 }
