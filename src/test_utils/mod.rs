@@ -3,6 +3,7 @@ use bitcoin::blockdata::transaction::{
     Transaction as BtcTransaction,
 };
 use crate::{
+    types::BtcUtxoAndValue,
     btc_private_key::BtcPrivateKey,
     get_btc_txs_from_utxos_info::convert_hex_tx_to_btc_tx,
 };
@@ -30,4 +31,8 @@ pub fn get_sample_tx() -> BtcTransaction {
 
 pub fn get_sample_tx_output() -> BtcTxOut {
     get_sample_tx().output[SAMPLE_UTXO_INDEX as usize].clone()
+}
+
+pub fn get_sample_utxo() -> BtcUtxoAndValue {
+    BtcUtxoAndValue::from_json(SAMPLE_UTXO_JSON_STRING).unwrap()
 }

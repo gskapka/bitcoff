@@ -15,7 +15,7 @@ pub fn create_op_return_tx_and_add_to_state(state: State) -> Result<State> {
         state.addresses_and_amounts.clone(),
         &get_change_address_from_cli_args_in_state(&state)?,
         *state.get_btc_private_key()?,
-        state.get_btc_utxos_and_values()?.clone(),
+        state.get_btc_utxos_and_values()?,
         Some(get_op_return_output(&hex::decode(state.cli_args.arg_data.clone())?)?),
     )
         .and_then(|tx| state.add_btc_tx(tx))

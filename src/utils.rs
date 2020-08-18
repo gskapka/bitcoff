@@ -11,7 +11,7 @@ use crate::{
         Byte,
         Bytes,
         Result,
-        BtcUtxoAndValue,
+        BtcUtxosAndValues,
     },
     base58::{
         from as from_base58,
@@ -104,8 +104,8 @@ pub fn deserialize_btc_utxo(bytes: &[Byte]) -> Result<BtcUtxo> {
     Ok(btc_deserialize(bytes)?)
 }
 
-pub fn get_total_value_of_utxos_and_values(utxos_and_values: &[BtcUtxoAndValue]) -> u64 {
-   utxos_and_values.iter().map(|utxo_and_value| utxo_and_value.value).sum()
+pub fn get_total_value_of_utxos_and_values(utxos_and_values: &BtcUtxosAndValues) -> u64 {
+   utxos_and_values.0.iter().map(|utxo_and_value| utxo_and_value.value).sum()
 }
 
 pub fn get_op_return_output(op_return_bytes: &[Byte]) -> Result<BtcTxOut> {

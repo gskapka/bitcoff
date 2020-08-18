@@ -201,9 +201,7 @@ impl State {
         }
     }
 
-    pub fn get_btc_utxos_and_values(
-        &self
-    ) -> Result<&BtcUtxosAndValues> {
+    pub fn get_btc_utxos_and_values(&self) -> Result<&BtcUtxosAndValues> {
         match &self.btc_utxos_and_values {
             Some(btc_utxos_and_values) => Ok(&btc_utxos_and_values),
             None => Err(AppError::Custom(
@@ -212,9 +210,7 @@ impl State {
         }
     }
 
-    pub fn get_btc_txs(
-        &self
-    ) -> Result<&BtcTransactions> {
+    pub fn get_btc_txs(&self) -> Result<&BtcTransactions> {
         match &self.btc_txs {
             Some(btc_txs) => Ok(&btc_txs),
             None => Err(AppError::Custom(

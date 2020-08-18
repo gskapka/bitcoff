@@ -38,7 +38,15 @@ fn create_unsigned_utxo_from_tx_output(tx: &BtcTransaction, output_index: u32) -
 }
 
 fn create_unsigned_utxos_from_tx_outputs(tx: &[BtcTransaction], utxos_info: &[UtxoInfo]) -> Result<BtcUtxosAndValues> {
-    Ok(tx.iter().enumerate() .map(|(i, tx)| create_btc_utxo_and_value_from_tx_output(tx, utxos_info[i].vout)).collect())
+    Ok(
+        BtcUtxosAndValues::from_vec(
+            tx
+                .iter()
+                .enumerate()
+                .map(|(i, tx)| create_btc_utxo_and_value_from_tx_output(tx, utxos_info[i].vout))
+                .collect()
+            )
+        )
 }
 
 pub fn extract_utxos_and_add_to_state(state: State) -> Result<State> {

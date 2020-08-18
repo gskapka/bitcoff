@@ -26,7 +26,7 @@ use crate::{
     types::{
         Bytes,
         Result,
-        BtcUtxoAndValue,
+        BtcUtxosAndValues,
     },
     utils::{
         calculate_btc_tx_fee,
@@ -75,7 +75,7 @@ fn make_pbtc_tx_and_put_in_state(
         state.addresses_and_amounts.clone(),
         &get_change_address_from_cli_args_in_state(&state)?,
         *state.get_btc_private_key()?,
-        state.get_btc_utxos_and_values()?.clone(),
+        state.get_btc_utxos_and_values()?,
         None,
         state.get_btc_script()?,
     )
@@ -105,7 +105,7 @@ pub fn create_signed_raw_btc_tx_for_n_input_n_outputs(
     recipient_addresses_and_amounts: Vec<(String, u64)>, // TODO MAKE A TYPE?
     remainder_btc_address: &str,
     btc_private_key: BtcPrivateKey,
-    utxos_and_values: Vec<BtcUtxoAndValue>,
+    utxos_and_values: &BtcUtxosAndValues,
     maybe_op_return_output: Option<BtcTxOut>,
     redeem_script: &BtcScript,
 ) -> Result<BtcTransaction> {
@@ -145,11 +145,13 @@ pub fn create_signed_raw_btc_tx_for_n_input_n_outputs(
         version: VERSION,
         lock_time: LOCK_TIME,
         input: utxos_and_values
+            .to_vec()
             .iter()
             .map(|utxo_and_value| utxo_and_value.get_utxo())
             .collect::<Result<Vec<BtcUtxo>>>()?,
     };
     let signatures = utxos_and_values
+        .to_vec()
         .iter()
         .map(|utxo_and_value| utxo_and_value.get_utxo())
         .collect::<Result<Vec<BtcUtxo>>>()?
@@ -163,6 +165,7 @@ pub fn create_signed_raw_btc_tx_for_n_input_n_outputs(
         )
         .collect::<Result<Vec<Bytes>>>()?;
     let utxos_with_signatures = utxos_and_values
+        .to_vec()
         .iter()
         .map(|utxo_and_value| utxo_and_value.get_utxo())
         .collect::<Result<Vec<BtcUtxo>>>()?
