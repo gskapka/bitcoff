@@ -10,7 +10,7 @@ A simple Rust CLI for creating on- & offline BTC transactions given a __`UTXO`__
 
 ### :point_right: Usage:
 
-The __`./examples`__ directory has - unsurprisingly - some examples in it that you can examine to see how to run the tool. Otherwise, the usage-notes are as follows:
+The __`./examples`__ directory has - unsurprisingly - some examples in it that you can examine to see how to run the tool. Before running the examples, you'll need to build the tool. See the build section of this __`README`__ for instructions. Otherwise, the usage-notes are as follows:
 
 ```
 ❍ BTC Transaction Maker ❍
@@ -136,14 +136,9 @@ Options:
 
 &nbsp;
 
-### :wrench: Build
+### :wrench: Build It
 
-Binary built with Rust & Cargo version:
-__`rustc 1.38.0-nightly (8a58268b5 2019-07-31)`__
-
-
-To build it yourself:
-__`❍ cargo build --release`__
+__`❍ cargo b --release`__
 
 &nbsp;
 
@@ -156,8 +151,6 @@ __`❍ cargo build --release`__
 The tool relies on a GPG shell command in order to retrieve your BTC private key, and thus this only works wherever the __`gpg -d`__ command would.
 
 The tool currently gathers ALL of an address' UTXOs for the transaction, regardless of value. Some more finessing on this point will/might be available soon :P
-
-The binary in the __`/bin`__ directory has a __`sha256d`__ of: __`9b7eb278af7186d5dc2c9f57918dca04ccd85dc4c04a81e3275ec019fe993f3e`__
 
 &nbsp;
 
