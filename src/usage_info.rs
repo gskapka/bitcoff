@@ -139,7 +139,7 @@ Options:
                            hashing. A nonce of '0' will use a unix timestamp
                            instead. [default: 0]
 
-    -change=<string>    ❍ Address to send any change to. Defaults to address
+    --change=<string>    ❍ Address to send any change to. Defaults to address
                            of the private key used for the transaction.
                            [default: signer]
 
