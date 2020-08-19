@@ -78,14 +78,14 @@ pub fn create_signed_raw_btc_tx_for_n_input_n_outputs(
         input: utxos_and_values
             .to_vec()
             .iter()
-            .map(|utxo_and_value| utxo_and_value.get_utxo())
-            .collect::<Result<Vec<BtcUtxo>>>()?,
+            .map(|utxo_and_value| utxo_and_value.utxo.clone())
+            .collect::<Vec<BtcUtxo>>(),
     };
     let signatures = utxos_and_values
         .to_vec()
         .iter()
-        .map(|utxo_and_value| utxo_and_value.get_utxo())
-        .collect::<Result<Vec<BtcUtxo>>>()?
+        .map(|utxo_and_value| utxo_and_value.utxo.clone())
+        .collect::<Vec<BtcUtxo>>()
         .iter()
         .enumerate()
         .map(|(i, utxo)|
@@ -107,8 +107,8 @@ pub fn create_signed_raw_btc_tx_for_n_input_n_outputs(
     let utxos_with_signatures = utxos_and_values
         .to_vec()
         .iter()
-        .map(|utxo_and_value| utxo_and_value.get_utxo())
-        .collect::<Result<Vec<BtcUtxo>>>()?
+        .map(|utxo_and_value| utxo_and_value.utxo.clone())
+        .collect::<Vec<BtcUtxo>>()
         .iter()
         .enumerate()
         .map(|(i, utxo)|

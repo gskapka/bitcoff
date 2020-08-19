@@ -76,20 +76,13 @@ mod tests {
     #[test]
     fn should_create_btc_utxo_and_value_from_tx_output() {
         let expected_value = 1666;
-        let expected_serialized_utxo = vec![
-            36, 41, 192, 66, 159, 55, 246, 203, 135, 129, 206, 193,
-            178, 164, 116, 218, 21, 162, 206, 177, 33, 10, 61, 131,
-            74, 64, 218, 163, 244, 250, 248, 133, 0, 0, 0, 0, 25,
-            118, 169, 20, 84, 16, 39, 131, 200, 100, 12, 81, 68, 208,
-            57, 206, 165, 62, 183, 219, 180, 112, 8, 20, 136, 172,
-            255, 255, 255, 255
-        ];
+        let expected_serialized_utxo = "2429c0429f37f6cb8781cec1b2a474da15a2ceb1210a3d834a40daa3f4faf885000000001976a91454102783c8640c5144d039cea53eb7dbb470081488acffffffff";
         let result = create_btc_utxo_and_value_from_tx_output(
             &get_sample_tx(),
             SAMPLE_UTXO_INDEX,
         );
         assert!(result.value ==  expected_value);
-        assert!(result.serialized_utxo == expected_serialized_utxo);
+        assert_eq!(result.get_serialized_utxo_hex(), expected_serialized_utxo);
     }
 
     #[test]

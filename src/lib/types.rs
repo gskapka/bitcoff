@@ -29,7 +29,7 @@ pub struct UtxoInfo {
     pub txid: String,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct BtcUtxosAndValues(pub Vec<BtcUtxoAndValue>);
 
 impl BtcUtxosAndValues {
@@ -62,26 +62,15 @@ impl BtcUtxosAndValues {
     }
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct BtcUtxoAndValue {
     pub value: u64,
-    pub serialized_utxo: Bytes,
+    pub utxo: BtcUtxo,
 }
 
 impl BtcUtxoAndValue {
     pub fn new(value: u64, utxo: &BtcUtxo) -> Self {
-        BtcUtxoAndValue {
-            value,
-            serialized_utxo: serialize_btc_utxo(utxo),
-        }
-    }
-
-    pub fn new_serialized(value: u64, serialized_utxo: Bytes) -> Self {
-        BtcUtxoAndValue { serialized_utxo, value }
-    }
-
-    pub fn get_utxo(&self) -> Result<BtcUtxo> {
-        deserialize_btc_utxo(&self.serialized_utxo)
+        BtcUtxoAndValue { value, utxo: utxo.clone() }
     }
 
     pub fn from_json(json: &str) -> Result<Self> {
@@ -91,19 +80,29 @@ impl BtcUtxoAndValue {
             pub serialized_utxo: String,
         };
         let json: IntermediateJson = serde_json::from_str(json)?;
-        Ok(Self::new_serialized(json.value, hex::decode(&json.serialized_utxo)?))
+        Ok(Self::new(json.value, &deserialize_btc_utxo(&hex::decode(json.serialized_utxo)?)?))
     }
 
     pub fn to_json_value(&self) -> JsonValue {
         json!({
             "value": self.value,
-            "serialized_utxo": hex::encode(&self.serialized_utxo),
+            "serialized_utxo": hex::encode(&serialize_btc_utxo(&self.utxo)),
         })
     }
 
     #[cfg(test)]
     pub fn to_json(&self) -> String {
         self.to_json_value().to_string()
+    }
+
+    #[cfg(test)]
+    fn get_serialized_utxo(&self) -> Bytes {
+        serialize_btc_utxo(&self.utxo)
+    }
+
+    #[cfg(test)]
+    pub fn get_serialized_utxo_hex(&self) -> String {
+        hex::encode(self.get_serialized_utxo())
     }
 }
 
