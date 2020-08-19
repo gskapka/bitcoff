@@ -45,6 +45,14 @@ impl BtcUtxosAndValues {
         self.0.len()
     }
 
+    pub fn get_utxos(&self) -> Vec<BtcUtxo> {
+        self.to_vec().iter().map(|x| x.utxo.clone()).collect()
+    }
+
+    pub fn get_total_value(&self) -> u64 {
+        self.to_vec().iter().map(|x| x.value).sum()
+    }
+
     pub fn from_json(json: &str) -> Result<Self> {
         let strings: Vec<JsonValue> = serde_json::from_str(json)?;
         Ok(

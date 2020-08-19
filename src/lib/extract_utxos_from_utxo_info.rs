@@ -5,7 +5,6 @@ use bitcoin::blockdata::transaction::{
 };
 use crate::lib::{
     state::State,
-    utils::get_total_value_of_utxos_and_values,
     constants::{
         ONE_BTC,
         DEFAULT_BTC_SEQUENCE,
@@ -56,7 +55,7 @@ pub fn extract_utxos_and_add_to_state(state: State) -> Result<State> {
             info!(
                 "✔ Total value of the {} UTXO(s): {} BTC",
                 utxos.len(),
-                get_total_value_of_utxos_and_values(&utxos) as f64 / ONE_BTC,
+                utxos.get_total_value() as f64 / ONE_BTC,
             );
             state.add_btc_utxos_and_values(utxos)
         })

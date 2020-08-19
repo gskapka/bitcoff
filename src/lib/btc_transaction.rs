@@ -5,7 +5,6 @@ use crate::lib::{
         get_script_sig,
         create_new_tx_output,
         calculate_btc_tx_fee,
-        get_total_value_of_utxos_and_values,
     },
     types::{
         Bytes,
@@ -37,11 +36,7 @@ pub fn create_signed_raw_btc_tx_for_n_input_n_outputs(
     utxos_and_values: &BtcUtxosAndValues,
     maybe_op_return_output: Option<BtcTxOut>,
 ) -> Result<BtcTransaction> {
-    let total_to_spend: u64 = recipient_addresses_and_amounts
-        .iter()
-        .map(|(_, amount)| amount)
-        .sum();
-
+    let total_to_spend: u64 = recipient_addresses_and_amounts.iter().map(|(_, amount)| amount).sum();
     let fee = calculate_btc_tx_fee(
         utxos_and_values.len(),
         match &maybe_op_return_output {
@@ -50,7 +45,7 @@ pub fn create_signed_raw_btc_tx_for_n_input_n_outputs(
         },
         sats_per_byte
     );
-    let utxo_total = get_total_value_of_utxos_and_values(&utxos_and_values);
+    let utxo_total = utxos_and_values.get_total_value();
     info!("✔ UTXO(s) total:  {}", utxo_total);
     info!("✔ Outgoing total: {}", total_to_spend);
     info!("✔ Change amount:  {}", utxo_total - (total_to_spend + fee));
@@ -67,48 +62,20 @@ pub fn create_signed_raw_btc_tx_for_n_input_n_outputs(
     };
     let change = utxo_total - total_to_spend - fee;
     if change > 0 {
-        outputs.push(
-            create_new_tx_output(&change, remainder_btc_address)?
-        )
+        outputs.push(create_new_tx_output(&change, remainder_btc_address)?)
     };
-    let tx = BtcTransaction {
-        output: outputs,
-        version: VERSION,
-        lock_time: LOCK_TIME,
-        input: utxos_and_values
-            .to_vec()
-            .iter()
-            .map(|utxo_and_value| utxo_and_value.utxo.clone())
-            .collect::<Vec<BtcUtxo>>(),
-    };
-    let signatures = utxos_and_values
-        .to_vec()
-        .iter()
-        .map(|utxo_and_value| utxo_and_value.utxo.clone())
-        .collect::<Vec<BtcUtxo>>()
+    let utxos = utxos_and_values.get_utxos();
+    let tx = BtcTransaction { output: outputs, version: VERSION, lock_time: LOCK_TIME, input: utxos.clone() };
+    let signatures = utxos
         .iter()
         .enumerate()
-        .map(|(i, utxo)|
-            tx.signature_hash(
-                i,
-                &utxo.script_sig,
-                SIGN_ALL_HASH_TYPE as u32
-            )
-        )
+        .map(|(i, utxo)| tx.signature_hash(i, &utxo.script_sig, SIGN_ALL_HASH_TYPE as u32))
         .map(|hash| hash.to_vec())
         .map(|tx_hash_to_sign|
-            btc_private_key
-                .sign_hash_and_append_btc_hash_type(
-                    tx_hash_to_sign.to_vec(),
-                    SIGN_ALL_HASH_TYPE as u8,
-                )
+            btc_private_key.sign_hash_and_append_btc_hash_type(tx_hash_to_sign.to_vec(), SIGN_ALL_HASH_TYPE as u8)
         )
         .collect::<Result<Vec<Bytes>>>()?;
-    let utxos_with_signatures = utxos_and_values
-        .to_vec()
-        .iter()
-        .map(|utxo_and_value| utxo_and_value.utxo.clone())
-        .collect::<Vec<BtcUtxo>>()
+    let utxos_with_signatures = utxos
         .iter()
         .enumerate()
         .map(|(i, utxo)|
@@ -116,10 +83,7 @@ pub fn create_signed_raw_btc_tx_for_n_input_n_outputs(
                 sequence: utxo.sequence,
                 witness: utxo.witness.clone(),
                 previous_output: utxo.previous_output,
-                script_sig: get_script_sig(
-                    &signatures[i],
-                    &btc_private_key.to_public_key_slice(),
-                ),
+                script_sig: get_script_sig(&signatures[i], &btc_private_key.to_public_key_slice()),
             }
          )
         .collect::<Vec<BtcUtxo>>();
