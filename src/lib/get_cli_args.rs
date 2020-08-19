@@ -4,7 +4,7 @@ use std::time::{
     SystemTime,
     UNIX_EPOCH,
 };
-use crate::{
+use crate::lib::{
     errors::AppError,
     usage_info::USAGE_INFO,
     constants::BLOCK_EXPLORER_URL,

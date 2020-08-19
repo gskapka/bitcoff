@@ -2,7 +2,7 @@ use bitcoin::{
     consensus::encode::deserialize as btc_deserialize,
     blockdata::transaction::Transaction as BtcTransaction,
 };
-use crate::{
+use crate::lib::{
     state::State,
     utils::make_api_call,
     types::{
@@ -50,7 +50,7 @@ pub fn get_txs_from_utxo_infos_and_put_in_state(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::test_utils::{
+    use crate::lib::test_utils::{
         get_sample_tx_hex,
         SAMPLE_TESTNET_TX_ID,
         SAMPLE_TESTNET_ENDPOINT,

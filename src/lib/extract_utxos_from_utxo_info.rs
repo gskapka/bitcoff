@@ -3,7 +3,7 @@ use bitcoin::blockdata::transaction::{
     OutPoint as BtcOutPoint,
     Transaction as BtcTransaction,
 };
-use crate::{
+use crate::lib::{
     state::State,
     utils::get_total_value_of_utxos_and_values,
     constants::{
@@ -66,7 +66,7 @@ pub fn extract_utxos_and_add_to_state(state: State) -> Result<State> {
 mod tests {
     use super::*;
     use bitcoin::consensus::encode::serialize as btc_serialize;
-    use crate::test_utils::{
+    use crate::lib::test_utils::{
         get_sample_tx,
         SAMPLE_UTXO_INDEX,
         SAMPLE_TESTNET_TX_ID,

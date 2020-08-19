@@ -1,5 +1,5 @@
 pub const USAGE_INFO: &str = "
-❍ BTC Transaction Maker ❍
+❍ Bitcoff - An on or offline BTC transaction signer ❍
 
     Copyright Greg Kapka 2019
     Questions: greg@kapka.co.uk

@@ -1,6 +1,6 @@
 use simplelog::*;
 use log::LevelFilter;
-use crate::{
+use crate::lib::{
     types::Result,
     errors::AppError,
     get_cli_args::CliArgs,

@@ -3,7 +3,7 @@ use serde_json::{
     json,
     Value as JsonValue,
 };
-use crate::{
+use crate::lib::{
     errors::AppError,
     utils::{
         serialize_btc_utxo,
@@ -113,7 +113,7 @@ impl BtcUtxoAndValue {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::test_utils::{
+    use crate::lib::test_utils::{
         get_sample_utxo,
         SAMPLE_UTXO_JSON_STRING,
     };

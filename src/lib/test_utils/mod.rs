@@ -2,7 +2,7 @@ use bitcoin::blockdata::transaction::{
     TxOut as BtcTxOut,
     Transaction as BtcTransaction,
 };
-use crate::{
+use crate::lib::{
     types::BtcUtxoAndValue,
     btc_private_key::BtcPrivateKey,
     get_btc_txs_from_utxos_info::convert_hex_tx_to_btc_tx,

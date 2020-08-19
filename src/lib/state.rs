@@ -6,7 +6,9 @@ use bitcoin::{
         transaction::Transaction as BtcTransaction,
     },
 };
-use crate::{
+use crate::lib::{
+    errors::AppError,
+    btc_private_key::BtcPrivateKey,
     types::{
         Bytes,
         Result,
@@ -15,14 +17,12 @@ use crate::{
         BtcUtxosAndValues,
         BtcAddressesAndAmounts,
     },
-    errors::AppError,
     get_cli_args::{
         CliArgs,
         get_network_from_cli_arg,
         get_api_endpoint_from_cli_args,
         get_addresses_and_amounts_from_cli_args,
     },
-    btc_private_key::BtcPrivateKey,
 };
 
 pub struct State {

@@ -8,8 +8,8 @@ pub enum AppError {
     SecpError(secp256k1::Error),
     NoneError(std::option::NoneError),
     SerdeJsonError(serde_json::Error),
-    Base58Error(crate::base58::Error),
     FromUtf8Error(std::str::Utf8Error),
+    Base58Error(crate::lib::base58::Error),
     SystemTimeError(std::time::SystemTimeError),
     BitcoinError(bitcoin::consensus::encode::Error),
     BitcoinAddressError(bitcoin::util::address::Error),
@@ -74,8 +74,8 @@ impl From<hex::FromHexError> for AppError {
     }
 }
 
-impl From<crate::base58::Error> for AppError {
-    fn from(e: crate::base58::Error) -> AppError {
+impl From<crate::lib::base58::Error> for AppError {
+    fn from(e: crate::lib::base58::Error) -> AppError {
         AppError::Base58Error(e)
     }
 }

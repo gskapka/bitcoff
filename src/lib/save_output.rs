@@ -1,7 +1,7 @@
-use crate::types::Result;
+use crate::lib::types::Result;
 
 pub fn maybe_save_output(
-    output: String, 
+    output: String,
     maybe_path: &Option<String>
 ) -> Result<String> {
     use std::fs;

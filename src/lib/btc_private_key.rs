@@ -18,7 +18,7 @@ use secp256k1::{
         PublicKey,
     },
 };
-use crate::{
+use crate::lib::{
     utils::generate_random_private_key,
     types::{
         Bytes,
@@ -123,7 +123,7 @@ impl fmt::Display for BtcPrivateKey {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::test_utils::{
+    use crate::lib::test_utils::{
         SAMPLE_BTC_PUBLIC_KEY,
         SAMPLE_TARGET_BTC_ADDRESS,
         get_sample_btc_private_key,

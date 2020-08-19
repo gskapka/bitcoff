@@ -1,4 +1,4 @@
-use crate::{
+use crate::lib::{
     errors::AppError,
     btc_private_key::BtcPrivateKey,
     utils::{
@@ -137,7 +137,7 @@ pub fn create_signed_raw_btc_tx_for_n_input_n_outputs(
 mod tests {
     use super::*;
     use bitcoin::consensus::encode::serialize as btc_serialize;
-    use crate::test_utils::{
+    use crate::lib::test_utils::{
         get_sample_utxo,
         get_sample_btc_private_key,
     };

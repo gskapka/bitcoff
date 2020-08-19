@@ -1,4 +1,4 @@
-use crate::{
+use crate::lib::{
     state::State,
     types::{
         Result,
@@ -44,7 +44,7 @@ pub fn get_utxos_info_for_address_in_cli_args_and_add_to_state(state: State) -> 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::test_utils::{
+    use crate::lib::test_utils::{
         SAMPLE_TESTNET_ENDPOINT,
         SAMPLE_TARGET_BTC_ADDRESS,
     };
