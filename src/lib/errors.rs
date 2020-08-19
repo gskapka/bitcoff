@@ -18,26 +18,15 @@ impl fmt::Display for AppError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let msg = match *self {
             AppError::Custom(ref msg) => msg.to_string(),
-            AppError::IOError(ref e) =>
-                format!("✘ I/O Error!\n✘ {}", e),
-            AppError::HexError(ref e) =>
-                format!("✘ Hex Error!\n✘ {}", e),
-            AppError::Base58Error(ref e) =>
-                format!("✘ Base58 Error!\n✘ {}", e),
-            AppError::BitcoinError(ref e) =>
-                format!("✘ Bitcoin Error!\n✘ {}", e),
-            AppError::SerdeJsonError(ref e) =>
-                format!("✘ Serde-Json Error!\n✘ {}", e),
-            AppError::SystemTimeError(ref e) =>
-                format!("✘ System time error!\n✘ {}", e),
-            AppError::FromUtf8Error(ref e) =>
-                format!("✘ From utf8 error: \n✘ {:?}", e),
-            AppError::SecpError(ref e) =>
-                format!("✘ secp256k1 error: \n✘ {:?}", e),
-            AppError::NoneError(ref e) =>
-                format!("✘ Nothing to unwrap!\n✘ {:?}", e),
-            AppError::BitcoinAddressError(ref e) =>
-                format!("✘ Bitcoin Address Error!\n✘ {}", e),
+            AppError::IOError(ref e) => format!("✘ I/O error: {}", e),
+            AppError::HexError(ref e) => format!("✘ Hex error! {}", e),
+            AppError::BitcoinError(ref e) => format!("✘ Bitcoin error: {}", e),
+            AppError::SecpError(ref e) => format!("✘ Secp256k1 error: {:?}", e),
+            AppError::NoneError(ref e) => format!("✘ Nothing to unwrap: {:?}", e),
+            AppError::FromUtf8Error(ref e) => format!("✘ From utf8 error: {:?}", e),
+            AppError::SerdeJsonError(ref e) => format!("✘ Serde-Json error: {}", e),
+            AppError::SystemTimeError(ref e) => format!("✘ System time error: {}", e),
+            AppError::BitcoinAddressError(ref e) => format!("✘ Bitcoin address error: {}", e),
         };
         f.write_fmt(format_args!("{}", msg))
     }
