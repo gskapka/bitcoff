@@ -1,3 +1,4 @@
+#![allow(dead_code)] // TODO rm!
 use std::fmt;
 use bitcoin::{
     util::{

@@ -1,3 +1,4 @@
+#![allow(dead_code)] // TODO rm!
 // Rust Bitcoin Library
 // Written in 2014 by
 //   Andrew Poelstra <apoelstra@wpsoftware.net>

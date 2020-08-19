@@ -1,9 +1,5 @@
 use docopt::Docopt;
 use bitcoin::network::constants::Network as BtcNetwork;
-use std::time::{
-    SystemTime,
-    UNIX_EPOCH,
-};
 use crate::lib::{
     errors::AppError,
     usage_info::USAGE_INFO,
@@ -55,21 +51,6 @@ pub fn get_network_from_cli_arg(network_cli_arg: &str) -> BtcNetwork {
             info!("✔ Using network: 'Bitcoin'");
             BtcNetwork::Bitcoin
         }
-    }
-}
-
-pub fn get_nonce_from_cli_arg(nonce_cli_arg: &u64) -> Result<u64> {
-    info!("✔ Getting nonce from cli-arg: `{}`", nonce_cli_arg);
-    match nonce_cli_arg {
-        0 => {
-            info!("✔ Using timestamp as nonce!");
-            Ok(
-                SystemTime::now()
-                    .duration_since(UNIX_EPOCH)?
-                    .as_secs()
-            )
-        }
-        _ => Ok(*nonce_cli_arg),
     }
 }
 

@@ -13,9 +13,6 @@ use crate::lib::{
         Result,
         BtcUtxosAndValues,
     },
-    base58::{
-        from as from_base58,
-    },
 };
 use bitcoin::{
     util::address::Address as BtcAddress,
@@ -90,10 +87,6 @@ pub fn calculate_btc_tx_size(num_inputs: usize, num_outputs: usize) -> u64 {
 
 pub fn calculate_btc_tx_fee(num_inputs: usize, num_outputs: usize, sats_per_byte: usize) -> u64 {
     calculate_btc_tx_size(num_inputs, num_outputs) * sats_per_byte as u64
-}
-
-pub fn convert_btc_address_to_pub_key_hash_bytes(btc_address: &str) -> Result<Bytes> {
-    Ok(from_base58(btc_address)?[1..21].to_vec())
 }
 
 pub fn serialize_btc_utxo(btc_utxo: &BtcUtxo) -> Bytes {

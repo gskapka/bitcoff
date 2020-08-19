@@ -41,10 +41,6 @@ impl BtcUtxosAndValues {
         self.0.to_vec()
     }
 
-    pub fn is_empty(&self) -> bool {
-        self.len() == 0
-    }
-
     pub fn len(&self) -> usize {
         self.0.len()
     }
@@ -105,6 +101,7 @@ impl BtcUtxoAndValue {
         })
     }
 
+    #[cfg(test)]
     pub fn to_json(&self) -> String {
         self.to_json_value().to_string()
     }
