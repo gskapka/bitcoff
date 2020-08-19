@@ -1,11 +1,11 @@
 #!/bin/bash
-../bin/btcoff \
+../target/release/bitcoff \
 makeOnlineTx \
-2Mygt1EwSJHbX8L4qLKzfTc4ZnykDzxFyAa \
+3GvVZhsVswXR3vCkmQ4paXksa5eEo69axq \
 5001 \
---network="Testnet" \
---change=moBSQbHn7N9BC9pdtAMnA7GBiALzNMQJyE \
---fee=20 \
+--network="Bitcoin" \
+--change=19mLN6zzFsHQBmtBud4QtgJHtkNqcGEBjX \
+--fee=216 \
 --outputPath="./make-online-tx-output" \
---keyfile="encrypted-btc-private-key.gpg" \
+--keyfile="my-mainnet-private-key-19mLN...EBjX.gpg" \
 --logLevel="debug"
