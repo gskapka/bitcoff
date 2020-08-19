@@ -1,13 +1,10 @@
 use docopt::Docopt;
 use bitcoin::network::constants::Network as BtcNetwork;
 use crate::lib::{
+    types::Result,
     errors::AppError,
     usage_info::USAGE_INFO,
     constants::BLOCK_EXPLORER_URL,
-    types::{
-        Result,
-        BtcAddressesAndAmounts,
-    },
 };
 
 #[allow(non_snake_case)]
@@ -35,10 +32,6 @@ pub struct CliArgs {
     pub cmd_makeOnlineOpReturnTx: bool,
     pub cmd_makeOfflineOpReturnTx: bool,
     pub flag_outputPath: Option<String>,
-}
-
-pub fn get_addresses_and_amounts_from_cli_args(addresses: &[String], amounts: &[u64]) -> BtcAddressesAndAmounts {
-    addresses.iter().enumerate().map(|(i, address)| (address.clone(), amounts[i])).collect()
 }
 
 pub fn get_network_from_cli_arg(network_cli_arg: &str) -> BtcNetwork {

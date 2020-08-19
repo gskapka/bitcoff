@@ -1,4 +1,3 @@
-use std::str::FromStr;
 use secp256k1::SecretKey;
 use rand::{
     RngCore,
@@ -11,10 +10,10 @@ use crate::lib::{
         Byte,
         Bytes,
         Result,
+        BtcAddressAndAmount,
     },
 };
 use bitcoin::{
-    util::address::Address as BtcAddress,
     consensus::encode::serialize as btc_serialize,
     consensus::encode::deserialize as btc_deserialize,
     blockdata::{
@@ -63,13 +62,8 @@ pub fn make_api_call(url: &str, error_message: &str) -> Result<String> {
     }
 }
 
-pub fn create_new_tx_output(amount_in_satoshis : &u64, btc_address: &str) -> Result<BtcTxOut> {
-    Ok(
-        BtcTxOut {
-            value: *amount_in_satoshis,
-            script_pubkey: BtcAddress::from_str(btc_address)?.script_pubkey(),
-        }
-    )
+pub fn create_new_tx_output(address_and_amount: &BtcAddressAndAmount) -> Result<BtcTxOut> {
+    Ok(BtcTxOut { value: address_and_amount.amount, script_pubkey: address_and_amount.address.script_pubkey() })
 }
 
 pub fn get_script_sig<'a>(signature_slice: &'a[u8], utxo_spender_pub_key_slice: &'a[u8]) -> BtcScript {

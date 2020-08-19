@@ -55,7 +55,7 @@ pub fn extract_utxos_and_add_to_state(state: State) -> Result<State> {
             info!(
                 "✔ Total value of the {} UTXO(s): {} BTC",
                 utxos.len(),
-                utxos.get_total_value() as f64 / ONE_BTC,
+                utxos.sum() as f64 / ONE_BTC,
             );
             state.add_btc_utxos_and_values(utxos)
         })

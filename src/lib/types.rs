@@ -1,4 +1,4 @@
-use std::result;
+use std::{result, str::FromStr};
 use serde_json::{
     json,
     Value as JsonValue,
@@ -10,9 +10,12 @@ use crate::lib::{
         deserialize_btc_utxo,
     },
 };
-use bitcoin::blockdata::transaction::{
-    TxIn as BtcUtxo,
-    Transaction as BtcTransaction,
+use bitcoin::{
+    util::address::Address as BtcAddress,
+    blockdata::transaction::{
+        TxIn as BtcUtxo,
+        Transaction as BtcTransaction,
+    },
 };
 
 pub type Byte = u8;
@@ -20,7 +23,47 @@ pub type Bytes = Vec<Byte>;
 pub type UtxosInfo = Vec<UtxoInfo>;
 pub type BtcTransactions = Vec<BtcTransaction>;
 pub type Result<T> = result::Result<T, AppError>;
-pub type BtcAddressesAndAmounts = Vec<(String, u64)>;
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct BtcAddressesAndAmounts(pub Vec<BtcAddressAndAmount>);
+
+impl BtcAddressesAndAmounts {
+    pub fn new(addresses: &[String], amounts: &[u64]) -> Result<Self> {
+        Ok(
+            BtcAddressesAndAmounts(
+                addresses
+                    .iter()
+                    .enumerate()
+                    .map(|(i, address)| BtcAddressAndAmount::new(address, amounts[i]))
+                    .collect::<Result<Vec<BtcAddressAndAmount>>>()?
+            )
+        )
+    }
+
+    pub fn to_vec(&self) -> Vec<BtcAddressAndAmount> {
+        self.0.to_vec()
+    }
+
+    pub fn sum(&self) -> u64 {
+        self.0.iter().map(|x| x.amount).sum()
+    }
+
+    pub fn len(&self) -> usize {
+        self.0.len()
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct BtcAddressAndAmount {
+    pub amount: u64,
+    pub address: BtcAddress,
+}
+
+impl BtcAddressAndAmount {
+    pub fn new(address: &str, amount: u64) -> Result<Self> {
+        Ok(BtcAddressAndAmount { amount, address: BtcAddress::from_str(&address)? })
+    }
+}
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub struct UtxoInfo {
@@ -49,7 +92,7 @@ impl BtcUtxosAndValues {
         self.to_vec().iter().map(|x| x.utxo.clone()).collect()
     }
 
-    pub fn get_total_value(&self) -> u64 {
+    pub fn sum(&self) -> u64 {
         self.to_vec().iter().map(|x| x.value).sum()
     }
 

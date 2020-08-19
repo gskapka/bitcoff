@@ -16,7 +16,6 @@ use crate::lib::{
         CliArgs,
         get_network_from_cli_arg,
         get_api_endpoint_from_cli_args,
-        get_addresses_and_amounts_from_cli_args,
     },
 };
 
@@ -55,7 +54,7 @@ impl State {
                 btc_utxos_and_values: None,
                 network: get_network_from_cli_arg(&cli_args.flag_network),
                 api_endpoint: get_api_endpoint_from_cli_args(&cli_args.flag_network),
-                addresses_and_amounts: get_addresses_and_amounts_from_cli_args(&cli_args.arg_to, &cli_args.arg_amount),
+                addresses_and_amounts: BtcAddressesAndAmounts::new(&cli_args.arg_to, &cli_args.arg_amount)?,
                 cli_args,
             }
         )
