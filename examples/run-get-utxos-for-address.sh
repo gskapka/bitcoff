@@ -1,5 +1,5 @@
 #!/bin/bash
-../target/release/btcoff \
+../target/release/bitcoff \
 getUtxosForAddress \
 2N2LHYbt8K1KDBogd6XUG9VBv5YM6xefdM2 \
 --network="testnet" \

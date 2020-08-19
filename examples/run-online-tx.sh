@@ -1,5 +1,5 @@
 #!/bin/bash
-../target/release/btcoff \
+../target/release/bitcoff \
 makeOnlineTx \
 3GvVZhsVswXR3vCkmQ4paXksa5eEo69axq \
 5001 \
