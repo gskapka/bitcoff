@@ -1,7 +1,6 @@
 pub(crate) mod state;
 pub(crate) mod types;
 pub(crate) mod utils;
-pub(crate) mod base58;
 pub(crate) mod errors;
 pub(crate) mod get_utxos;
 pub(crate) mod create_tx;
