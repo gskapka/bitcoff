@@ -1,12 +1,12 @@
 pub const USAGE_INFO: &str = "
-❍ Bitcoff - An on or offline BTC transaction signer ❍
+❍ Bitcoff ❍
 
     Copyright Greg Kapka 2019
     Questions: greg@kapka.co.uk
 
 ❍ Info ❍
 
-A maker of BTC transactions!
+An on or offline BTC transaction signer!
 
 ❍ Usage ❍
 
@@ -52,18 +52,18 @@ Commands:
 
 Options:
 
-    --help               ❍ Show this message.
-    --outputPath=<path>  ❍ Save the tool's output to given path.
-    --fee=<uint>         ❍ Fee to pay in Satoshis-per-byte. [default: 23]
-    --network=<string>   ❍ Btc network: Either `Bitcoin` or `Testnet`. [default: Bitcoin]
-    --logLevel=<level>   ❍ Define the level of logging in the tool's output as one of: `none`, `info`, `debug`, `trace`
-                           or `error` [default: none]
-    --keyfile=<path>     ❍ Path to GPG-encrypted BTC private key in wallet import format (`WIF`).
-                           [default: ./encrypted-btc-private-key.gpg]
-    --nonce=<uint>       ❍ A nonce to be combined with the ETH address before hashing. A nonce of '0' will use a unix
-                           timestamp instead. [default: 0]
-    --change=<string>    ❍ Address to send any change to. Defaults to address of the private key used for the
-                           transaction. [default: signer]
-    --utxoFile=<path>    ❍ Path to a file containing a valid JSON array of BTC UTXOs in the format:
-                           [{ serialized_utxo: <0x...>, value: <value-in-Satoshis> },...]
+    --help                ❍ Show this message.
+    --outputPath=<path>   ❍ Save the tool's output to given path.
+    --fee=<uint>          ❍ Fee to pay in Satoshis-per-byte. [default: 23]
+    --network=<string>    ❍ Btc network: Either `Bitcoin` or `Testnet`. [default: Bitcoin]
+    --logLevel=<level>    ❍ Define the level of logging in the tool's output as one of: `none`, `info`, `debug`, `trace`
+                            or `error` [default: none]
+    --keyfile=<path>      ❍ Path to GPG-encrypted BTC private key in wallet import format (`WIF`).
+                            [default: ./encrypted-btc-private-key.gpg]
+    --nonce=<uint>        ❍ A nonce to be combined with the ETH address before hashing. A nonce of '0' will use a unix
+                            timestamp instead. [default: 0]
+    --change=<string>     ❍ Address to send any change to. Defaults to address of the private key used for the
+                            transaction. [default: signer]
+    --utxoFile=<path>     ❍ Path to a file containing a valid JSON array of BTC UTXOs in the format:
+                            [{ serialized_utxo: <0x...>, value: <value-in-Satoshis> },...]
 ";
