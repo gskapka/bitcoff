@@ -11,8 +11,6 @@ A maker of BTC transactions!
 ❍ Usage ❍
 
 Usage:  btcoff --help
-        btcoff makePBTCUtxoTx (<ethAddress> <ethAddressNonce>)... (<to> <amount>)... (--utxoFile=<path> | <utxos>) [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
-        btcoff getPBTCDepositAddress <recipient> <ethAddress> [--nonce=<uint>] [--keyfile=<path>] [--network=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff getUtxos [--keyfile=<path>] [--network=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff getUtxosForAddress <btcAddress> [--network=<string>] [--outputPath=<path>] [--logLevel=<level>]
         btcoff makeOnlineTx (<to> <amount>)... [--keyfile=<path>] [--network=<string>] [--fee=<uint>] [--change=<string>] [--outputPath=<path>] [--logLevel=<level>]
@@ -22,26 +20,14 @@ Usage:  btcoff --help
 
 Commands:
 
-    makePBTCUtxoTx        ❍ Make a BTC transaction from a/some pBTC UTXO(s).
-                            UTXOs supplied must be in the following JSON format:
-                            [
-                                {
-                                    utxo_hex: <0x...>,
-                                    utxo_value: <value-in-Satoshis>,
-                                },...
-                            ]
-
-    getPBTCDepositAddress ❍ Generate a BTC deposit address for a given ETH
-                            address for the Provable pBTC.
-
     getUtxos              ❍ *Needs internet connection!* Makes API call to get
                             all UTXOs associated with address derived from the
                             encrypted private key. UTXOs are presented in the
                             following JSON format:
                             [
                                 {
-                                    utxo_hex: <0x...>,
-                                    utxo_value: <value-in-Satoshis>,
+                                    serialized_utxo: <0x...>,
+                                    value: <value-in-Satoshis>,
                                 },...
                             ]
 
@@ -50,8 +36,8 @@ Commands:
                             UTXOs are presented in the following JSON format:
                             [
                                 {
-                                    utxo_hex: <0x...>,
-                                    utxo_value: <value-in-Satoshis>,
+                                    serialized_utxo: <0x...>,
+                                    value: <value-in-Satoshis>,
                                 },...
                             ]
 
@@ -65,8 +51,8 @@ Commands:
                             file, both of which must use the JSON format:
                             [
                                 {
-                                    utxo_hex: <0x...>,
-                                    utxo_value: <value-in-Satoshis>,
+                                    serialized_utxo: <0x...>,
+                                    value: <value-in-Satoshis>,
                                 },...
                             ]
 
@@ -86,8 +72,8 @@ Commands:
                             the above `getUtxos` command returns:
                             [
                                 {
-                                    utxo_hex: <0x...>,
-                                    utxo_value: <value-in-Satoshis>,
+                                    serialized_utxo: <0x...>,
+                                    value: <value-in-Satoshis>,
                                 },...
                             ]
 
@@ -99,19 +85,12 @@ Commands:
 
     <btcAddress>          ❍ A bitcoin address.
 
-    <ethAddress>          ❍ An ethereum address, in hex format.
-
-    <ethAddressNonce>     ❍ The nonce used in combination with the ETH address
-                            when the pBTC desposit address was generated.
-
-    <recipient>           ❍ The BTC recipient address.
-
     <utxos>               ❍ The UTXOs required for a BTC transaction, as a
                             valid JSON string in the form:
                             [
                                 {
-                                    utxo_hex: <0x...>,
-                                    utxo_value: <value-in-Satoshis>,
+                                    serialized_utxo: <0x...>,
+                                    value: <value-in-Satoshis>,
                                 },...
                             ]
 
@@ -147,8 +126,8 @@ Options:
                            UTXOs in the format:
                            [
                                {
-                                   utxo_hex: <0x...>,
-                                   utxo_value: <value-in-Satoshis>,
+                                   serialized_utxo: <0x...>,
+                                   value: <value-in-Satoshis>,
                                },...
                            ]
 ";
