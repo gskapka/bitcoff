@@ -16,6 +16,7 @@ pub struct CliArgs {
     pub flag_nonce: u64,
     pub flag_fee: usize,
     pub arg_data: String,
+    pub cmd_version: bool,
     pub cmd_getUtxos: bool,
     pub arg_to: Vec<String>, // FIXME How to check is valid address?
     pub flag_change: String, // FIXME How to check is valid address?

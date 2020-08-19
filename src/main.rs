@@ -10,6 +10,7 @@ use crate::lib::{
     errors::AppError,
     get_utxos::get_utxos,
     usage_info::USAGE_INFO,
+    get_version_info::get_version_info,
     get_utxos_for_address::get_utxos_for_address,
     make_online_transaction::make_online_transaction,
     make_offline_transaction::make_offline_transaction,
@@ -27,6 +28,7 @@ fn main() -> Result<()> {
         .and_then(maybe_initialize_logger_and_return_cli_args)
         .and_then(|cli_args|
             match cli_args {
+                CliArgs {cmd_version: true, ..} => get_version_info(),
                 CliArgs {cmd_getUtxos: true, ..} => get_utxos(cli_args),
                 CliArgs {cmd_makeOnlineTx: true, ..} => make_online_transaction(cli_args),
                 CliArgs {cmd_makeOfflineTx: true, ..} => make_offline_transaction(cli_args),

@@ -13,6 +13,7 @@ pub(crate) mod get_cli_args;
 pub(crate) mod get_utxos_info;
 pub(crate) mod btc_transaction;
 pub(crate) mod btc_private_key;
+pub(crate) mod get_version_info;
 pub(crate) mod initialize_logger;
 pub(crate) mod create_op_return_tx;
 pub(crate) mod get_btc_private_key;
